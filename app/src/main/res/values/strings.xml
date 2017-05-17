@@ -1,0 +1,122 @@
+<resources>
+    <string name="app_name">Mojito</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Ustawienia</string>
+    <string name="title_activity_login">Zgłoszenie użytkownika</string>
+    <string name="prompt_password">Hasło</string>
+    <string name="action_sign_in">Zaloguj się</string>
+    <string name="action_sign_in_short">Zaloguj</string>
+    <string name="error_invalid_user_id">Numer kelnera nie jest prawidłowy</string>
+    <string name="error_invalid_password">Hasło nie jest prawidłowe</string>
+    <string name="error_field_required">Pole wymagane</string>
+    <string name="prompt_user">Numer kelnera</string>
+    <string name="error_incorrect_login">Podane dane nie zgadzają się</string>
+    <string name="bills_own_open">Otwarte własne</string>
+    <string name="bills_all_open">Otwarte wszystkie</string>
+    <string name="bills_own_closed">Zamknięte własne</string>
+    <string name="bills_all_closed">Zamknięte wszystkie</string>
+    <string name="bills">Rachunki</string>
+    <string name="waiter_account">Twoje konto</string>
+    <string name="waiter_account_settings">Ustawienia</string>
+    <string name="waiter_account_permissions">Uprawnienia</string>
+    <string name="waiter_account_logout">Wyloguj</string>
+    <string name="title_activity_bill_edition">Rachunek</string>
+    <string name="undo">Cofnij</string>
+    <string name="action_bill_send">Wyślij bon</string>
+    <string name="cancel">Anuluj</string>
+    <string name="accept">Zatwierdź</string>
+    <string name="guests_count">Liczba gości</string>
+    <string name="table_number">Numer stolika</string>
+    <string name="bill">Rachunek</string>
+    <string name="bill_for_table_exists" formatted="false">Rachunek na wskazany stolik jest już otwarty!\nRachunek %1$s</string>
+    <string name="invalid_guests_count">Nieprawidłowa liczba gości</string>
+    <string name="invalid_table_number">Nieprawidłowy numer stolika</string>
+    <string name="action_sync">Synchronizuj</string>
+    <string name="action_register">Zarejestruj się</string>
+    <string name="pref_host_ip">Adres IP serwera</string>
+    <string name="pref_pattern_login">Logowanie wzorem</string>
+    <string name="pref_host_port">Numer portu serwera</string>
+    <string name="pref_sale_point_id">Numer punktu sprzedaży</string>
+    <string name="pref_device_id">Numer urządzenia</string>
+    <string name="bill_release" formatted="false">WYDANIE %s</string>
+    <string name="enter_product_price" formatted="false">Podaj cenę dla %s</string>
+    <string name="enter_bills_count">Podaj liczbę rachunków</string>
+    <string name="enter_proportion">Podaj proporcję (np. 1:2:2)</string>
+    <string name="enter_split_amount">Podaj kwotę do wydzielenia</string>
+    <string name="bill_modified">Rachunek zmodyfikowany</string>
+    <string name="cancel_edition">Czy na pewno chcesz zakończyć edycję?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
+    <string name="new_bill">Nowy rachunek</string>
+    <string name="add_new_products">Dodaj zamówione produkty.</string>
+    <string name="sync_with_gip">Zsynchronizuj rachunek.</string>
+    <string name="set_two_guests">Ustaw co najmniej dwóch gości.</string>
+    <string name="remove_value_changeable">Usuń rabaty, narzuty lub płatności.</string>
+    <string name="bill_split">Podział rachunku</string>
+    <string name="bill_split_failed">Nie można dokonać podziału rachunku.</string>
+    <string name="gip_error">Błąd GIP</string>
+    <string name="bill_closed" formatted="false">Rachunek %s\\%s został zamknięty</string>
+    <string name="cannot_reopen_bill">Nie można odtworzyć rachunku</string>
+    <string name="bill_closing">Zamknięcie rachunku</string>
+    <string name="bill_closing_prompt">Czy chcesz zamknąć rachunek?</string>
+    <string name="prefill_bill">Rachunek przedwstępny</string>
+    <string name="no_permission">Nie posiadasz uprawnień do tej operacji</string>
+    <string name="yes_close">Tak, zamknij</string>
+    <string name="incorect_parameters">Podano nieprawidłowe parametry</string>
+    <string name="no_splitted_bills">Brak podzielonych rachunków</string>
+    <string name="page_order">ZAMÓWIENIE</string>
+    <string name="page_discount">RABATY</string>
+    <string name="page_markup">NARZUTY</string>
+    <string name="page_payment">PŁATNOŚCI</string>
+    <string name="bill_split_guests">Według gości</string>
+    <string name="bill_split_equal">Po równo</string>
+    <string name="proportion">Proporcja</string>
+    <string name="bill_split_amount">Wydziel kwotę</string>
+    <string name="waiter_account_login">Zaloguj się</string>
+    <string name="waiter_account_register">Zarejestruj wzór</string>
+    <string name="pref_bills_columns_count">Ilość kolumn widoku rachunków</string>
+    <string name="message_from_gh">Wiadomość z systemu GH</string>
+    <string name="item_added_snack" formatted="false">Dodano %s</string>
+    <string name="close">Zamknij</string>
+    <string name="no_bills">Brak rachunków</string>
+    <string name="new_bill_label" formatted="false">Nowy rachunek na stolik %d</string>
+    <string name="bill_label" formatted="false">Rachunek %d/%d</string>
+    <string name="user_label" formatted="false">Użytkownik %d</string>
+    <string name="error_wrong_user_id_or_password">Błędny numer kelnera lub hasło</string>
+    <string name="enter_user_id">Wprowadź numer kelnera</string>
+    <string name="enter_user_pass">Wprowadź hasło kelnera</string>
+    <string name="perm_close_bills">Zamykanie rachunków</string>
+    <string name="perm_bills_overtake">Przekazywanie rachunków</string>
+    <string name="perm_immediate_cancellation">Storno natychmiastowe pozycji</string>
+    <string name="perm_cancellation">Storno pozycji</string>
+    <string name="perm_bills_prefill">Rachunek przedwstępny</string>
+    <string name="next">Dalej</string>
+    <string name="enter_login_credentials">Wprowadź dane logowania</string>
+    <string name="enter_login_pattern">Narysuj wzór logowania</string>
+    <string name="register">Zarejestruj się</string>
+    <string name="reenter_login_pattern">Narysuj ponownie wzór, by potwierdzić</string>
+    <string name="wrong_user_id">Nieprawidłowy numer kelnera</string>
+    <string name="wrong_user_pass">Nieprawidłowe hasło</string>
+    <string name="no_pattern_reenter">Brak wzoru, narysuj wzór logowania</string>
+    <string name="pattern_doesnt_match">Wzory nie są takie same, narysuj ponownie</string>
+    <string name="register_with_success">Pomyślnie zarejestrowano użytkownika</string>
+    <string name="registration_failed">Rejestracja nie powiodła się</string>
+    <string name="pattern_registerd">Wzór zarejestrowany</string>
+    <string name="merge_bills">Połącz rachunki</string>
+    <string name="bills_merge_prompt" formatted="false">Czy chcesz połączyć rachunek %s z %s</string>
+    <string name="error">Błąd</string>
+    <string name="ok">OK</string>
+    <string name="bill_blocked" formatted="false">Rachunek %s jest zablokowany</string>
+    <string name="no_permissions">Nie posiadasz wystarczających uprawnień do tej operacji</string>
+    <string name="add_order">Dodaj zamówienie</string>
+    <string name="sync_bill">Zsynchronizuj rachunek</string>
+    <string name="cennot_merge_bills">Nie można połączyć rachunków.</string>
+    <string name="server_error">Błąd serwera</string>
+    <string name="syncing">Synchronizacja</string>
+    <string name="please_wait">Proszę czekać…</string>
+    <string name="table">Stolik</string>
+    <string name="license_expired">Licencja wygasła</string>
+</resources>

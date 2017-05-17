@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="pl.sportdata.mojito"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:name="pl.sportdata.mojito.MojitoApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/waiter"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="pl.sportdata.mojito.modules.credentials.LoginActivityImpl"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="pl.sportdata.mojito.modules.main.MainActivityImpl"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="pl.sportdata.mojito.modules.credentials.RegisterActivityImpl"
+            android:label="Rejestracja"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name="pl.sportdata.mojito.modules.bill.BillEditionActivityImpl"
+            android:parentActivityName="pl.sportdata.mojito.modules.main.MainActivityImpl"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="pl.sportdata.mojito.modules.credentials.SettingsActivityImpl"
+            android:label="Ustawienia"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name="pl.sportdata.mojito.modules.bills.split.SplitActivityImpl"
+            android:label="Podziel rachunek"
+            android:parentActivityName="pl.sportdata.mojito.modules.main.MainActivityImpl"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name="pl.sportdata.mojito.modules.credentials.PermissionsActivityImpl"
+            android:label="Uprawnienia"
+            android:screenOrientation="portrait" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9cc2301680a4649e14adb8d591cc55ab970ffb2a" />
+
+        <activity
+            android:name="pl.sportdata.mojito.modules.main.SplashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

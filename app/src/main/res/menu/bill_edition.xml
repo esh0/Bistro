@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_done"
+        android:icon="@drawable/ic_done_white_24dp"
+        android:orderInCategory="100"
+        android:title="Zakończ"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_search_white_24dp"
+        android:orderInCategory="101"
+        android:title="Szukaj"
+        android:visible="false"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always|collapseActionView" />
+    <item
+        android:id="@+id/action_view"
+        android:orderInCategory="102"
+        android:title=""
+        app:actionLayout="@layout/switch_layout"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_change_table"
+        android:orderInCategory="201"
+        android:title="Zmień stolik"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_change_guests"
+        android:orderInCategory="202"
+        android:title="Liczba gości"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_split_order"
+        android:enabled="false"
+        android:orderInCategory="203"
+        android:title="Podziel rachunek"
+        app:showAsAction="never" />
+</menu>

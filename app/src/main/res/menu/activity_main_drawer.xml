@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item android:title="@string/bills">
+            <menu>
+                <item
+                    android:id="@+id/nav_bills_own_open"
+                    android:title="@string/bills_own_open" />
+                <item
+                    android:id="@+id/nav_bills_all_open"
+                    android:title="@string/bills_all_open" />
+                <!--<item
+                    android:id="@+id/nav_bills_own_closed"
+                    android:title="@string/bills_own_closed" />
+                <item
+                    android:id="@+id/nav_bills_all_closed"
+                    android:title="@string/bills_all_closed" />-->
+            </menu>
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:title="@string/waiter_account">
+            <menu>
+                <item
+                    android:id="@+id/nav_waiter_account_settings"
+                    android:title="@string/waiter_account_settings" />
+                <item
+                    android:id="@+id/nav_waiter_account_permissions"
+                    android:title="@string/waiter_account_permissions" />
+            </menu>
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_waiter_account_logout"
+            android:title="@string/waiter_account_logout" />
+    </group>
+</menu>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:defaultValue="192.168.56.1"
+        android:digits="0123456789."
+        android:inputType="phone"
+        android:key="pref_host_ip"
+        android:title="@string/pref_host_ip" />
+    <EditTextPreference
+        android:defaultValue="5050"
+        android:digits="0123456789:"
+        android:inputType="phone"
+        android:key="pref_host_port"
+        android:title="@string/pref_host_port" />
+    <EditTextPreference
+        android:defaultValue="1"
+        android:digits="0123456789"
+        android:inputType="phone"
+        android:key="pref_sale_point_id"
+        android:title="@string/pref_sale_point_id" />
+    <EditTextPreference
+        android:defaultValue="9"
+        android:digits="0123456789"
+        android:inputType="phone"
+        android:key="pref_device_id"
+        android:title="@string/pref_device_id" />
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_pattern_login"
+        android:title="@string/pref_pattern_login" />
+    <EditTextPreference
+        android:defaultValue="1"
+        android:digits="0123456789"
+        android:inputType="phone"
+        android:key="pref_bills_columns_count"
+        android:title="@string/pref_bills_columns_count" />
+</PreferenceScreen>

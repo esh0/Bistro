@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group
+        android:id="@+id/group_bills"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/group_bills_title"
+            android:title="@string/bills">
+            <menu>
+                <item
+                    android:id="@+id/nav_bills_own_open"
+                    android:enabled="false"
+                    android:title="@string/bills_own_open" />
+                <item
+                    android:id="@+id/nav_bills_all_open"
+                    android:enabled="false"
+                    android:title="@string/bills_all_open" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_account"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/group_account_title"
+            android:title="@string/waiter_account">
+            <menu>
+                <item
+                    android:id="@+id/nav_waiter_account_settings"
+                    android:title="@string/waiter_account_settings" />
+                <item
+                    android:id="@+id/nav_waiter_account_permissions"
+                    android:enabled="false"
+                    android:title="@string/waiter_account_permissions" />
+            </menu>
+        </item>
+    </group>
+
+    <group
+        android:id="@+id/group_actions"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_waiter_account_login"
+            android:title="@string/waiter_account_login" />
+        <item
+            android:id="@+id/nav_waiter_account_register"
+            android:title="@string/waiter_account_register" />
+    </group>
+</menu>

@@ -1,0 +1,55 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/gray_a8</item>
+        <item name="android:textColorSecondary">@color/gray_94</item>
+        <item name="subtitleTextColor">@color/colorAccent</item>
+        <item name="patternViewStyle">@style/PatternView</item>
+        <item name="alertDialogTheme">@style/MojitoAlertDialogTheme</item>
+
+        <item name="android:windowBackground">@color/gray_30</item>
+    </style>
+
+    <style name="AppTheme.Light" parent="AppTheme.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/colorAccentDark</item>
+
+        <item name="android:textColorPrimary">@color/black</item>
+        <item name="android:textColorSecondary">@color/gray_a8</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="commonListItemStyle"></style>
+
+    <style name="sectionHeaderItemStyle">
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
+        <item name="android:gravity">left|bottom</item>
+        <item name="android:paddingBottom">8dp</item>
+    </style>
+
+    <style name="MojitoAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:windowBackground">@color/gray_42</item>
+        <item name="android:background">@color/gray_42</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="colorAccent">@color/colorAccentLight</item>
+    </style>
+
+    <style name="NavStyle" parent="Theme.AppCompat.Light">
+        <item name="android:textColorSecondary">@color/gray_94</item>
+    </style>
+</resources>
