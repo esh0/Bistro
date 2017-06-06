@@ -21,6 +21,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -348,7 +349,7 @@ public class PalmGipDataProvider implements DataProvider {
             SyncObject changedSyncObject = SyncObject.getEmpty();
             changedSyncObject.parameters = new Parameters(gastroDay, Integer.parseInt(salePointId), Integer.parseInt(deviceId), challengeCode);
             changedSyncObject.bills = new ArrayList<>();
-            Bill orgBill = bills.get(0);
+            final Bill orgBill = bills.get(0);
             Bill toBill = bills.get(moveTo);
             orgBill.setEntries(new ArrayList<Entry>());
             orgBill.setMoveTo(toBill.getId());
@@ -384,10 +385,41 @@ public class PalmGipDataProvider implements DataProvider {
                             gastroDay = newSyncObject.configuration.gastroDay;
                             if (newSyncObject.bills != null && !newSyncObject.bills.isEmpty()) {
                                 if (TextUtils.isEmpty(newSyncObject.messages)) {
-                                    if (moveTo == bills.size() - 1) {
-                                        listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? null : newSyncObject.messages);
+                                    //need to find original bill and update it's items ids, as it changes after moving to other bill
+                                    boolean billFound = false;
+                                    for (Bill gipBill : newSyncObject.bills) {
+                                        if (gipBill.getId() == orgBill.getId()) {
+                                            for (Entry gipEntry : gipBill.getEntries()) {
+                                                for (Entry orgEntry : orgBill.getEntries()) {
+                                                    if (gipEntry.getItemId() == orgEntry.getItemId()) {
+                                                        orgEntry.setId(gipEntry.getId());
+                                                    }
+                                                }
+                                            }
+                                            billFound = true;
+                                            break;
+                                        }
+                                    }
+
+                                    if (billFound) {
+                                        for (int i = 1, size = bills.size(); i < size; i++) {
+                                            Bill toBill = bills.get(i);
+                                            for (Entry toEntry : toBill.getEntries()) {
+                                                for (Entry orgEntry : orgBill.getEntries()) {
+                                                    if (toEntry.getItemId() == orgEntry.getItemId()) {
+                                                        toEntry.setId(orgEntry.getId());
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        if (moveTo == bills.size() - 1) {
+                                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? null : newSyncObject.messages);
+                                        } else {
+                                            moveBillsForSplit(bills, moveTo + 1, listener);
+                                        }
                                     } else {
-                                        moveBillsForSplit(bills, moveTo + 1, listener);
+                                        listener.onSyncFinished("Nieprawidłowa odpowiedź po podziale rachunku");
                                     }
                                 } else {
                                     listener.onSyncFinished(newSyncObject.messages);
@@ -412,7 +444,7 @@ public class PalmGipDataProvider implements DataProvider {
     }
 
     @Override
-    public void mergeBills(@NonNull List<Bill> bills, @NonNull final DataProviderSyncListener listener) {
+    public void mergeBills(@NonNull Bill bill, @NonNull final DataProviderSyncListener listener) {
         String hostUrl = getSyncHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
             listener.onSyncFinished("Błędne ustawienia komunikacji");
@@ -423,7 +455,7 @@ public class PalmGipDataProvider implements DataProvider {
 
             SyncObject changedSyncObject = SyncObject.getEmpty();
             changedSyncObject.parameters = new Parameters(gastroDay, Integer.parseInt(salePointId), Integer.parseInt(deviceId), challengeCode);
-            changedSyncObject.bills = bills;
+            changedSyncObject.bills = Collections.singletonList(bill);
 
             Gson gson = new GsonBuilder().create();
             JSONObject syncJsonObject = null;

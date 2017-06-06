@@ -229,9 +229,9 @@ public class MainActivityPresenter extends BasePresenter<MainActivityImpl>
     public void onBillsMergeConfirmed(Bill sourceBill, Bill targetBill) {
         int error = canMergeBills(sourceBill, targetBill);
         if (error == 0) {
-            List<Bill> mergedBills = BillUtils.joinBills(sourceBill, targetBill);
-            if (!mergedBills.isEmpty()) {
-                MergeBillsDialogFragment.newInstance(mergedBills).show(getActivity().getSupportFragmentManager(), null);
+            Bill newBill = BillUtils.joinBills(sourceBill, targetBill);
+            if (newBill != null) {
+                MergeBillsDialogFragment.newInstance(newBill).show(getActivity().getSupportFragmentManager(), null);
             }
         } else {
             String errorMessage = null;

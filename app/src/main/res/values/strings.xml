@@ -55,7 +55,7 @@
     <string name="sync_with_gip">Zsynchronizuj rachunek.</string>
     <string name="set_two_guests">Ustaw co najmniej dwóch gości.</string>
     <string name="remove_value_changeable">Usuń rabaty, narzuty lub płatności.</string>
-    <string name="bill_split">Podział rachunku</string>
+    <string name="bill_split">Podziel rachunek</string>
     <string name="bill_split_failed">Nie można dokonać podziału rachunku.</string>
     <string name="gip_error">Błąd GIP</string>
     <string name="bill_closed" formatted="false">Rachunek %s\\%s został zamknięty</string>
@@ -71,10 +71,10 @@
     <string name="page_discount">RABATY</string>
     <string name="page_markup">NARZUTY</string>
     <string name="page_payment">PŁATNOŚCI</string>
-    <string name="bill_split_guests">Według gości</string>
-    <string name="bill_split_equal">Po równo</string>
-    <string name="proportion">Proporcja</string>
-    <string name="bill_split_amount">Wydziel kwotę</string>
+    <string name="bill_split_guests">wg. zamówień klientów</string>
+    <string name="bill_split_equal">na równe części</string>
+    <string name="proportion">wg. proporcji</string>
+    <string name="bill_split_amount">na wydzieloną kwotę</string>
     <string name="waiter_account_login">Zaloguj się</string>
     <string name="waiter_account_register">Zarejestruj wzór</string>
     <string name="pref_bills_columns_count">Ilość kolumn widoku rachunków</string>

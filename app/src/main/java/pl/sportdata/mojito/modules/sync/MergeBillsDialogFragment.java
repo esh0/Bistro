@@ -2,7 +2,6 @@ package pl.sportdata.mojito.modules.sync;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -12,9 +11,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatDialogFragment;
 
-import java.lang.reflect.Type;
-import java.util.List;
-
 import pl.sportdata.mojito.R;
 import pl.sportdata.mojito.entities.DataProvider;
 import pl.sportdata.mojito.entities.DataProviderFactory;
@@ -23,15 +19,15 @@ import pl.sportdata.mojito.entities.bills.Bill;
 
 public class MergeBillsDialogFragment extends AppCompatDialogFragment {
 
-    private static final String BILLS_KEY = "bills_key";
+    private static final String BILL_KEY = "bill_key";
     private Listener listener;
-    private List<Bill> bills;
+    private Bill bill;
 
-    public static MergeBillsDialogFragment newInstance(List<Bill> bills) {
+    public static MergeBillsDialogFragment newInstance(Bill bill) {
         MergeBillsDialogFragment f = new MergeBillsDialogFragment();
         Bundle args = new Bundle();
         Gson gson = new GsonBuilder().create();
-        args.putString(BILLS_KEY, gson.toJson(bills));
+        args.putString(BILL_KEY, gson.toJson(bill));
         f.setArguments(args);
         return f;
     }
@@ -42,9 +38,7 @@ public class MergeBillsDialogFragment extends AppCompatDialogFragment {
         Bundle args = getArguments();
         if (args != null) {
             Gson gson = new GsonBuilder().create();
-            Type listType = new TypeToken<List<Bill>>() {
-            }.getType();
-            bills = gson.fromJson(args.getString(BILLS_KEY), listType);
+            bill = gson.fromJson(args.getString(BILL_KEY), Bill.class);
         }
     }
 
@@ -64,7 +58,7 @@ public class MergeBillsDialogFragment extends AppCompatDialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         final DataProvider dataProvider = DataProviderFactory.getDataProvider(getActivity());
-        dataProvider.mergeBills(bills, new DataProviderSyncListener() {
+        dataProvider.mergeBills(bill, new DataProviderSyncListener() {
             @Override
             public void onSyncFinished(@Nullable String error) {
                 if (listener != null) {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDialogFragment;
 import android.view.WindowManager;
@@ -24,15 +25,21 @@ public class BillSplitDialogFragment extends AppCompatDialogFragment {
     private int option = NONE;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        option = BY_GUEST_SPLIT_OPTION;
+    }
+
+    @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.MojitoAlertDialogTheme);
         builder.setTitle(getString(R.string.bill_split));
         String[] items = {getString(R.string.bill_split_guests), getString(R.string.bill_split_equal), getString(R.string.proportion),
                 getString(R.string.bill_split_amount)};
-        builder.setItems(items, new DialogInterface.OnClickListener() {
+        builder.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                switch (i) {
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
                     case 0:
                         option = BY_GUEST_SPLIT_OPTION;
                         break;
@@ -50,6 +57,20 @@ public class BillSplitDialogFragment extends AppCompatDialogFragment {
                 }
             }
         });
+        builder.setPositiveButton(R.string.accept, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (listener != null) {
+                    if (option != NONE) {
+                        listener.onBillSplitSelected(option);
+                    } else {
+                        listener.onBillSplitCancelled();
+                    }
+                }
+                dismiss();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, null);
 
         AlertDialog dialog = builder.create();
         dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -63,18 +84,6 @@ public class BillSplitDialogFragment extends AppCompatDialogFragment {
             listener = (BillSplitDialogListener) context;
         } else {
             throw new RuntimeException(context.toString() + " must implement BillSplitDialogListener");
-        }
-    }
-
-    @Override
-    public void onDismiss(DialogInterface dialog) {
-        super.onDismiss(dialog);
-        if (listener != null) {
-            if (option != NONE) {
-                listener.onBillSplitSelected(option);
-            } else {
-                listener.onBillSplitCancelled();
-            }
         }
     }
 

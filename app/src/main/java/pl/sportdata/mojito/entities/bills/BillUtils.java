@@ -509,34 +509,19 @@ public class BillUtils {
         }
     }
 
-    public static List<Bill> joinBills(@NonNull final Bill fromBill, @NonNull final Bill toBill) {
-        List<Bill> joinedBills = new ArrayList<>();
-        if (!fromBill.getEntries().isEmpty() && !toBill.getEntries().isEmpty()) {
+    public static Bill joinBills(@NonNull final Bill fromBill, @NonNull final Bill toBill) {
+        if (!fromBill.getEntries().isEmpty()) {
             Bill from = fromBill.copy();
-            Bill to = toBill.copy();
-            int id = 0;
-            for (int i = 0, size = to.getEntries().size(); i < size; i++) {
-                id = Math.max(id, to.getEntries().get(i).getId());
-            }
-
-            for (int i = 0, size = from.getEntries().size(); i < size; i++) {
-                Entry fromEntry = from.getEntries().get(i);
-                Entry toEntry = fromEntry.copy();
-                toEntry.setId(++id);
-                toEntry.setNew(true);
-                toEntry.setModified(true);
-                to.getEntries().add(toEntry);
-
-                fromEntry.setCancelled(true);
-            }
-
+            from.setMoveTo(toBill.getId());
             from.setModified(true);
-            to.setModified(true);
+            for (Entry entry : from.getEntries()) {
+                entry.setMoved(true);
+                entry.setModified(true);
+            }
 
-            joinedBills.add(from);
-            joinedBills.add(to);
+            return from;
         }
-        return joinedBills;
+        return null;
     }
 
     @Retention(SOURCE)

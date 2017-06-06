@@ -32,7 +32,7 @@ public interface DataProvider {
 
     void moveBillsForSplit(@NonNull List<Bill> bills, int moveTo, @NonNull DataProviderSyncListener listener);
 
-    void mergeBills(@NonNull List<Bill> bills, @NonNull DataProviderSyncListener listener);
+    void mergeBills(@NonNull Bill bill, @NonNull DataProviderSyncListener listener);
 
     @NonNull
     List<Group> getGroups();

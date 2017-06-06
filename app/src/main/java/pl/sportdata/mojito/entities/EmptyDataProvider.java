@@ -58,7 +58,7 @@ public class EmptyDataProvider implements DataProvider {
     }
 
     @Override
-    public void mergeBills(@NonNull List<Bill> bills, @NonNull DataProviderSyncListener listener) {
+    public void mergeBills(@NonNull Bill bill, @NonNull DataProviderSyncListener listener) {
 
     }
 
