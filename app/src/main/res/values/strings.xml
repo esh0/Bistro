@@ -43,9 +43,9 @@
     <string name="pref_device_id">Numer urządzenia</string>
     <string name="bill_release" formatted="false">WYDANIE %s</string>
     <string name="enter_product_price" formatted="false">Podaj cenę dla %s</string>
-    <string name="enter_bills_count">Podaj liczbę rachunków</string>
-    <string name="enter_proportion">Podaj proporcję (np. 1:2:2)</string>
-    <string name="enter_split_amount">Podaj kwotę do wydzielenia</string>
+    <string name="enter_bills_count">Liczba równych części, na które dzielę rachunek</string>
+    <string name="enter_proportion">Proporcja, wg. której dzielę rachunek (np. 1:2:2)</string>
+    <string name="enter_split_amount">Kwota, która ma zostać wydzielona</string>
     <string name="bill_modified">Rachunek zmodyfikowany</string>
     <string name="cancel_edition">Czy na pewno chcesz zakończyć edycję?</string>
     <string name="yes">Tak</string>
