@@ -35,7 +35,7 @@ public class EntryEditDialogFragment extends AppCompatDialogFragment implements 
     private Entry entry;
     private int originalGuest;
     private OnEntryEditDialogFragmentListener listener;
-    private NumberPickerView amountPicker;
+    private NumberPickerView amountFixedPicker;
     private NumberPickerView guestPicker;
     private CheckBox cancelledCheckbox;
     private DataProvider dataProvider;
@@ -61,11 +61,13 @@ public class EntryEditDialogFragment extends AppCompatDialogFragment implements 
         descriptionEditText = (EditText) view.findViewById(R.id.description_text);
         descriptionEditText.setText(entry.getDescription());
 
-        amountPicker = (NumberPickerView) view.findViewById(R.id.amount_picker_view);
-        amountPicker.setValue((int) entry.getAmount());
+        amountFixedPicker = (NumberPickerView) view.findViewById(R.id.amount_picker_view);
+        amountFixedPicker.setValue(entry.getAmount());
+        amountFixedPicker.setManualEditEnabled(true);
 
         guestPicker = (NumberPickerView) view.findViewById(R.id.guest_picker_view);
         guestPicker.setValue(entry.getGuest());
+        guestPicker.setManualEditEnabled(false);
 
         priceEditText = (EditText) view.findViewById(R.id.price_text);
         priceEditText.setText(String.format(Locale.getDefault(), "%.2f", entry.getPrice()));
@@ -85,7 +87,7 @@ public class EntryEditDialogFragment extends AppCompatDialogFragment implements 
             User user = ((MojitoApplication) getActivity().getApplication()).getLoggedUser();
             cancelledCheckbox.setEnabled(PermissionUtils.canUserCancelEntry(user) && !entry.isCancelled());
             descriptionEditText.setVisibility(View.GONE);
-            amountPicker.setEnabled(false);
+            amountFixedPicker.setEnabled(false);
             priceEditText.setEnabled(false);
         }
 
@@ -141,11 +143,11 @@ public class EntryEditDialogFragment extends AppCompatDialogFragment implements 
     }
 
     private void updateAmount() {
-        entry.setAmount(amountPicker.getValue());
+        entry.setAmount(amountFixedPicker.getValue());
     }
 
     private void updateGuest() {
-        entry.setGuest(guestPicker.getValue());
+        entry.setGuest((int) guestPicker.getValue());
     }
 
     private void updateDescription() {

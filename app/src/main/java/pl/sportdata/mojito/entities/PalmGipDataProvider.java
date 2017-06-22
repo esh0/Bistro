@@ -2,6 +2,7 @@ package pl.sportdata.mojito.entities;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -10,16 +11,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.crashlytics.android.Crashlytics;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -30,6 +34,7 @@ import pl.sportdata.mojito.MojitoApplication;
 import pl.sportdata.mojito.entities.base.BaseItemContainer;
 import pl.sportdata.mojito.entities.bills.Bill;
 import pl.sportdata.mojito.entities.bills.BillUtils;
+import pl.sportdata.mojito.entities.configuration.Configuration;
 import pl.sportdata.mojito.entities.discounts.Discount;
 import pl.sportdata.mojito.entities.entries.Entry;
 import pl.sportdata.mojito.entities.groups.Group;
@@ -50,6 +55,7 @@ public class PalmGipDataProvider implements DataProvider {
     private SyncObject syncObject;
     private int challengeCode;
     private String gastroDay = "";
+    private ParseResponseTask parseResponseTask;
 
     public PalmGipDataProvider(Context context) {
         this.context = context;
@@ -247,7 +253,7 @@ public class PalmGipDataProvider implements DataProvider {
 
             Crashlytics.setString("lastPostSyncObject", syncJsonObject.toString());
             Volley.newRequestQueue(context).add(new JsonObjectRequest(Request.Method.POST, hostUrl, syncJsonObject, getSyncResponseListener(listener),
-                    getSyncErrorListener(listener, true)) {
+                    getSyncErrorListener(listener, false)) {
                 @Override
                 public Map<String, String> getHeaders() {
                     Map<String, String> headers = new HashMap<>(1);
@@ -607,10 +613,14 @@ public class PalmGipDataProvider implements DataProvider {
                     syncObject = null;
                 }
 
-                if (error.networkResponse != null && error.networkResponse.data != null) {
+                if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
                     listener.onSyncFinished(new String(error.networkResponse.data));
-                } else {
+                } else if (error != null && error.networkResponse != null) {
+                    listener.onSyncFinished("Network error, status code: " + error.networkResponse.statusCode);
+                } else if (error != null && !TextUtils.isEmpty(error.getMessage())) {
                     listener.onSyncFinished(error.getMessage());
+                } else {
+                    listener.onSyncFinished("Empty network response, check server and wifi connection");
                 }
             }
         };
@@ -620,75 +630,11 @@ public class PalmGipDataProvider implements DataProvider {
         return new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Crashlytics.setString("lastResponseSyncObject", response.toString());
-
-                Gson gson = new GsonBuilder().create();
-                SyncObject newSyncObject = gson.fromJson(response.toString(), SyncObject.class);
-                if (newSyncObject != null && newSyncObject.bills != null && !newSyncObject.bills.isEmpty()) {
-                    for (Bill newBill : newSyncObject.bills) {
-                        List<Entry> newEntries = newBill.getEntries();
-                        if (newEntries != null && !newEntries.isEmpty()) {
-                            Bill oldBill = getBillById(newBill.getId());
-                            if (oldBill == null) {
-                                //search for created bill
-                            }
-
-                            if (oldBill != null) {
-                                List<Entry> oldEntries = oldBill.getEntries();
-                                for (Entry newEntry : newEntries) {
-                                    for (Entry oldEntry : oldEntries) {
-                                        if (newEntry.getId() == oldEntry.getId() && newEntry.getItemId() == oldEntry.getItemId()) {
-                                            newEntry.setGuest(oldEntry.getGuest());
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
+                if (parseResponseTask != null && parseResponseTask.getStatus() != AsyncTask.Status.FINISHED) {
+                    parseResponseTask.cancel(true);
                 }
-
-                syncObject = newSyncObject;
-                if (syncObject != null) {
-                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    User user = new Gson().fromJson(preferences.getString(MojitoApplication.PREF_KEY_USER, null), User.class);
-                    User updatedUser = UserUtils.findUserWithId(user.id, syncObject.users);
-                    if (updatedUser != null) {
-                        preferences.edit().putString(MojitoApplication.PREF_KEY_USER, new Gson().toJson(updatedUser)).apply();
-                    }
-
-                    Item separator = null;
-
-                    if (syncObject.groups != null) {
-                        for (Group group : syncObject.groups) {
-                            if (separator == null) {
-                                separator = ItemUtils.findSeparatorItem(group.items);
-                            }
-
-                            if (group.items != null) {
-                                for (Item item : group.items) {
-                                    item.groupId = group.id;
-                                }
-                            }
-                        }
-                    }
-
-                    challengeCode = syncObject.configuration.challengeCode;
-                    gastroDay = syncObject.configuration.gastroDay;
-
-                    if (syncObject.bills != null) {
-                        for (int i = 0, size = syncObject.bills.size(); i < size; i++) {
-                            Bill bill = syncObject.bills.get(i);
-                            if (bill != null) {
-                                if (separator != null) {
-                                    syncObject.bills.set(i, BillUtils.calculateBillGroups(bill, separator.id));
-                                }
-                                syncObject.bills.set(i, BillUtils.calculateBillDescriptions(bill));
-                            }
-                        }
-                    }
-                }
-
-                listener.onSyncFinished(null);
+                parseResponseTask = new ParseResponseTask(listener);
+                parseResponseTask.execute(response);
             }
         };
     }
@@ -896,5 +842,174 @@ public class PalmGipDataProvider implements DataProvider {
         }
 
         return null;
+    }
+
+    class ParseResponseTask extends AsyncTask<JSONObject, Void, SyncObject> {
+
+        private final DataProviderSyncListener listener;
+
+        public ParseResponseTask(DataProviderSyncListener listener) {
+            this.listener = listener;
+        }
+
+        @Override
+        protected SyncObject doInBackground(JSONObject... params) {
+            SyncObject newSyncObject = null;
+            JSONObject response = params[0];
+            if (response != null) {
+                List<User> users = null;
+                List<Bill> bills = null;
+                List<Group> groups = null;
+                BaseItemContainer<Markup> markups = null;
+                BaseItemContainer<Discount> discounts = null;
+                BaseItemContainer<PaymentType> paymentTypes = null;
+                String messages;
+                Configuration configuration = null;
+                Parameters parameters = null;
+
+                Gson gson = new GsonBuilder().create();
+                try {
+                    JSONArray jsonArray = response.optJSONArray("users");
+                    if (jsonArray != null) {
+                        users = new ArrayList<>();
+                        for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            users.add(gson.fromJson(jsonObject.toString(), User.class));
+                        }
+                    }
+
+                    jsonArray = response.optJSONArray("bills");
+                    if (jsonArray != null) {
+                        bills = new ArrayList<>();
+                        for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            bills.add(gson.fromJson(jsonObject.toString(), Bill.class));
+                        }
+                    }
+
+                    jsonArray = response.optJSONArray("groups");
+                    if (jsonArray != null) {
+                        groups = new ArrayList<>();
+                        for (int i = 0, size = jsonArray.length(); i < size; i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            groups.add(gson.fromJson(jsonObject.toString(), Group.class));
+                        }
+                    }
+
+                    JSONObject jsonObject = response.optJSONObject("markups");
+                    if (jsonObject != null) {
+                        Type type = new TypeToken<BaseItemContainer<Markup>>() {
+                        }.getType();
+                        markups = gson.fromJson(jsonObject.toString(), type);
+                    }
+
+                    jsonObject = response.optJSONObject("discounts");
+                    if (jsonObject != null) {
+                        Type type = new TypeToken<BaseItemContainer<Discount>>() {
+                        }.getType();
+                        discounts = gson.fromJson(jsonObject.toString(), type);
+                    }
+
+                    jsonObject = response.optJSONObject("payment_types");
+                    if (jsonObject != null) {
+                        Type type = new TypeToken<BaseItemContainer<PaymentType>>() {
+                        }.getType();
+                        paymentTypes = gson.fromJson(jsonObject.toString(), type);
+                    }
+
+                    messages = response.optString("messages");
+
+                    jsonObject = response.optJSONObject("configuration");
+                    if (jsonObject != null) {
+                        configuration = gson.fromJson(jsonObject.toString(), Configuration.class);
+                    }
+
+                    jsonObject = response.optJSONObject("parameters");
+                    if (jsonObject != null) {
+                        parameters = gson.fromJson(jsonObject.toString(), Parameters.class);
+                    }
+
+                    newSyncObject = new SyncObject(users, markups, discounts, paymentTypes, groups, bills, messages, configuration, parameters);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (newSyncObject != null) {
+                if (newSyncObject.bills != null) {
+                    for (Bill newBill : newSyncObject.bills) {
+                        List<Entry> newEntries = newBill.getEntries();
+                        if (newEntries != null && !newEntries.isEmpty()) {
+                            Bill oldBill = getBillById(newBill.getId());
+                            if (oldBill == null) {
+                                //search for created bill
+                            }
+
+                            if (oldBill != null) {
+                                List<Entry> oldEntries = oldBill.getEntries();
+                                for (Entry newEntry : newEntries) {
+                                    for (Entry oldEntry : oldEntries) {
+                                        if (newEntry.getId() == oldEntry.getId() && newEntry.getItemId() == oldEntry.getItemId()) {
+                                            newEntry.setGuest(oldEntry.getGuest());
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Item separator = null;
+                if (newSyncObject.groups != null) {
+                    for (Group group : newSyncObject.groups) {
+                        if (separator == null) {
+                            separator = ItemUtils.findSeparatorItem(group.items);
+                        }
+
+                        if (group.items != null) {
+                            for (Item item : group.items) {
+                                item.groupId = group.id;
+                            }
+                        }
+                    }
+                }
+
+                if (newSyncObject.bills != null) {
+                    for (int i = 0, size = newSyncObject.bills.size(); i < size; i++) {
+                        Bill bill = newSyncObject.bills.get(i);
+                        if (bill != null) {
+                            if (separator != null) {
+                                newSyncObject.bills.set(i, BillUtils.calculateBillGroups(bill, separator.id));
+                            }
+                            newSyncObject.bills.set(i, BillUtils.calculateBillDescriptions(bill));
+                        }
+                    }
+                }
+            }
+
+            return newSyncObject;
+        }
+
+        @Override
+        protected void onPostExecute(SyncObject newSyncObject) {
+            super.onPostExecute(newSyncObject);
+            if (!isCancelled()) {
+                if (newSyncObject != null) {
+                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    User user = new Gson().fromJson(preferences.getString(MojitoApplication.PREF_KEY_USER, null), User.class);
+                    User updatedUser = UserUtils.findUserWithId(user.id, newSyncObject.users);
+                    if (updatedUser != null) {
+                        preferences.edit().putString(MojitoApplication.PREF_KEY_USER, new Gson().toJson(updatedUser)).apply();
+                    }
+                    challengeCode = newSyncObject.configuration.challengeCode;
+                    gastroDay = newSyncObject.configuration.gastroDay;
+                    syncObject = newSyncObject;
+                }
+
+                if (listener != null) {
+                    listener.onSyncFinished(null);
+                }
+            }
+        }
     }
 }

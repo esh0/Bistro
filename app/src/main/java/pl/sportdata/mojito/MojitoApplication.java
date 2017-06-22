@@ -22,7 +22,8 @@ public class MojitoApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Fabric.with(this, new Crashlytics());
+        final Fabric fabric = new Fabric.Builder(this).kits(new Crashlytics()).debuggable(true).build();
+        Fabric.with(fabric);
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
     }

@@ -29,7 +29,7 @@ public class SyncObject implements Serializable {
     public Parameters parameters;
 
     public SyncObject(List<User> users, BaseItemContainer<Markup> markups, BaseItemContainer<Discount> discounts, BaseItemContainer<PaymentType> paymentTypes,
-            List<Group> groups, List<Bill> bills, String messages, Configuration configuration) {
+            List<Group> groups, List<Bill> bills, String messages, Configuration configuration, Parameters parameters) {
         this.users = users;
         this.markups = markups;
         this.discounts = discounts;
@@ -38,9 +38,10 @@ public class SyncObject implements Serializable {
         this.bills = bills;
         this.messages = messages;
         this.configuration = configuration;
+        this.parameters = parameters;
     }
 
     public static final SyncObject getEmpty() {
-        return new SyncObject(null, null, null, null, null, null, null, null);
+        return new SyncObject(null, null, null, null, null, null, null, null, null);
     }
 }

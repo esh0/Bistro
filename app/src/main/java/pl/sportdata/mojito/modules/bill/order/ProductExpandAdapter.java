@@ -101,6 +101,9 @@ public class ProductExpandAdapter
     }
 
     public List<Integer> calculateShades(@ColorInt int fromColor, @ColorInt int toColor, int numberShades) {
+        if (numberShades <= 0) {
+            return Collections.emptyList();
+        }
         //decompose color into RGB
         int redMax = Color.red(fromColor);
         int greenMax = Color.green(fromColor);
@@ -178,7 +181,6 @@ public class ProductExpandAdapter
 
                         if (!filteredItems.isEmpty()) {
                             ((List<Group>) results.values).add(new Group(group.name, group.id, filteredItems, true));
-
                         }
                     }
 

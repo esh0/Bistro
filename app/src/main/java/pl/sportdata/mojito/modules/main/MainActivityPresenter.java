@@ -11,7 +11,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
-import android.webkit.WebView;
 
 import java.util.List;
 
@@ -35,6 +34,7 @@ import pl.sportdata.mojito.modules.credentials.SettingsFragment;
 import pl.sportdata.mojito.modules.sync.MergeBillsDialogFragment;
 import pl.sportdata.mojito.modules.sync.SyncDialogFragment;
 import pl.sportdata.mojito.utils.CommonUtils;
+import pl.sportdata.mojito.utils.ViewUtils;
 import pl.sportdata.mojito.widgets.NumberInputDialogFragment;
 
 public class MainActivityPresenter extends BasePresenter<MainActivityImpl>
@@ -175,7 +175,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityImpl>
                 if (bill.getOwnerId() == getApplication().getLoggedUser().id) {
                     startBillEditionActivity(bill, null);
                 } else {
-                    getActivity().showNoPermission();
+                    getActivity().showBillExistsForTable(bill.getTableNumber());
                 }
             } else {
                 NumberInputDialogFragment f = NumberInputDialogFragment
@@ -288,12 +288,7 @@ public class MainActivityPresenter extends BasePresenter<MainActivityImpl>
                         .show();
             }
         } else {
-            AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-            alert.setTitle(R.string.server_error).setPositiveButton(R.string.close, null);
-            WebView wv = new WebView(getActivity());
-            wv.loadData(error, "text/html", "UTF-8");
-            alert.setView(wv);
-            alert.show();
+            ViewUtils.showWebViewDialog(getActivity(), error);
         }
 
         showBillsFragment(currentBillsType);

@@ -3,20 +3,27 @@ package pl.sportdata.mojito.widgets;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import pl.sportdata.mojito.R;
 
-public class NumberPickerView extends RelativeLayout implements View.OnClickListener {
+public class NumberPickerView extends RelativeLayout implements View.OnClickListener, TextWatcher, TextView.OnEditorActionListener {
 
-    private TextView valueTextView;
+    private EditText valueTextView;
     private Listener listener;
-    private int value;
-    private int minValue = 1;
-    private int maxValue = Integer.MAX_VALUE;
+    private float value;
+    private float minValue = 1;
+    private float maxValue = Float.MAX_VALUE;
 
     public NumberPickerView(Context context) {
         super(context);
@@ -41,7 +48,9 @@ public class NumberPickerView extends RelativeLayout implements View.OnClickList
 
     private void init(Context context) {
         inflate(context, R.layout.view_number_picker, this);
-        valueTextView = (TextView) findViewById(R.id.value);
+        valueTextView = (EditText) findViewById(R.id.value);
+        valueTextView.addTextChangedListener(this);
+        valueTextView.setOnEditorActionListener(this);
         findViewById(R.id.add_value).setOnClickListener(this);
         findViewById(R.id.sub_value).setOnClickListener(this);
 
@@ -49,14 +58,20 @@ public class NumberPickerView extends RelativeLayout implements View.OnClickList
     }
 
     private void updateValueText() {
-        valueTextView.setText(String.valueOf(value));
+        valueTextView.removeTextChangedListener(this);
+        valueTextView.setText(String.format(Locale.getDefault(), value - (int) value > 0 ? "%.2f" : "%.0f", value));
+        valueTextView.addTextChangedListener(this);
     }
 
-    public int getValue() {
+    public void setManualEditEnabled(boolean enabled) {
+        valueTextView.setEnabled(enabled);
+    }
+
+    public float getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(float value) {
         this.value = value;
         updateValueText();
     }
@@ -65,11 +80,11 @@ public class NumberPickerView extends RelativeLayout implements View.OnClickList
         this.listener = listener;
     }
 
-    public void setMinValue(int minValue) {
+    public void setMinValue(float minValue) {
         this.minValue = minValue;
     }
 
-    public void setMaxValue(int maxValue) {
+    public void setMaxValue(float maxValue) {
         this.maxValue = maxValue;
     }
 
@@ -78,15 +93,15 @@ public class NumberPickerView extends RelativeLayout implements View.OnClickList
         switch (v.getId()) {
             case R.id.add_value:
                 if (value < maxValue) {
-                    value++;
-                    onValueChanged();
+                    value = (int) value + 1;
                 }
+                onValueChanged();
                 break;
             case R.id.sub_value:
                 if (value > minValue) {
-                    value--;
-                    onValueChanged();
+                    value = (int) value - 1;
                 }
+                onValueChanged();
                 break;
         }
     }
@@ -104,8 +119,38 @@ public class NumberPickerView extends RelativeLayout implements View.OnClickList
         super.onDetachedFromWindow();
     }
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        try {
+            value = Float.parseFloat(s.toString());
+            if (!valueTextView.hasFocus()) {
+                updateValueText();
+            }
+        } catch (NumberFormatException | NullPointerException ignored) {
+
+        }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            updateValueText();
+        }
+        return false;
+    }
+
     public interface Listener {
 
-        void onValueChanged(int value);
+        void onValueChanged(float value);
     }
 }

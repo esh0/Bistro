@@ -158,6 +158,14 @@ public class MainActivityImpl extends BasePresenterActivity
     }
 
     @Override
+    public void showBillExistsForTable(int tableNumber) {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this).setTitle(R.string.error)
+                .setMessage(String.format(getString(R.string.bill_for_table_exists), String.valueOf(tableNumber))).setPositiveButton(R.string.ok, null);
+
+        dialogBuilder.show();
+    }
+
+    @Override
     public void onPositiveButtonClicked(String value, String numberInputFragmentTag) {
         presenter.onPositiveButtonClicked(value, numberInputFragmentTag);
     }

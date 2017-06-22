@@ -20,4 +20,6 @@ public interface MainActivity {
     void showBillBlockedMessage(Bill bill);
 
     void showNoPermission();
+
+    void showBillExistsForTable(int tableNumber);
 }

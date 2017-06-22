@@ -6,7 +6,6 @@ import android.content.res.ColorStateList;
 import android.os.Build;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -16,7 +15,6 @@ import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
-import android.widget.Toast;
 
 import java.util.List;
 import java.util.Locale;
@@ -317,12 +315,6 @@ public class BillEditionActivityPresenter extends BasePresenter<BillEditionActiv
 
     public void onSyncFinished(String error) {
         if (TextUtils.isEmpty(error)) {
-            String hostMessage = dataProvider.getMessage();
-            if (!TextUtils.isEmpty(hostMessage) && !TextUtils.isEmpty(hostMessage.replace("\n", ""))) {
-                new AlertDialog.Builder(getActivity()).setTitle(R.string.message_from_gh).setMessage(hostMessage).setPositiveButton(R.string.close, null)
-                        .show();
-            }
-
             Bill originalBill = bill;
             bill = null;
             int deviceId = BillUtils.getBillDeviceId(originalBill);
@@ -348,12 +340,45 @@ public class BillEditionActivityPresenter extends BasePresenter<BillEditionActiv
             if (bill != null) {
                 updateFragmentAdapters();
             } else if (originalBill.getClosing() == 1) {
-                Toast.makeText(getActivity(), String.format(getActivity().getString(R.string.bill_closed), BillUtils.getBillDeviceId(originalBill),
-                        BillUtils.getBillId(originalBill)), Toast.LENGTH_LONG).show();
-                getActivity().finish();
+                new AlertDialog.Builder(getActivity()).setTitle(R.string.message_from_gh).setMessage(
+                        String.format(getActivity().getString(R.string.bill_closed), BillUtils.getBillDeviceId(originalBill),
+                                BillUtils.getBillId(originalBill))).setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getActivity().finish();
+                    }
+                }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                }).show();
+            } else if (!TextUtils.isEmpty(dataProvider.getMessage()) && !TextUtils.isEmpty(dataProvider.getMessage().replace("\n", ""))) {
+                new AlertDialog.Builder(getActivity()).setTitle(R.string.message_from_gh).setMessage(dataProvider.getMessage())
+                        .setPositiveButton(R.string.close, null).show();
             } else {
-                Snackbar.make(getActivity().getViewPager(), R.string.cannot_reopen_bill, Snackbar.LENGTH_LONG).show();
-                getActivity().finish();
+                new AlertDialog.Builder(getActivity()).setTitle(R.string.message_from_gh).setMessage(R.string.cannot_reopen_bill)
+                        .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                getActivity().finish();
+                            }
+                        }).setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialog) {
+                        getActivity().finish();
+                    }
+                }).show();
             }
         } else {
             ViewUtils.showWebViewDialog(getActivity(), error);

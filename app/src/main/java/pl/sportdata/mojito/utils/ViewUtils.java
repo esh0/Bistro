@@ -6,8 +6,12 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.webkit.WebView;
+import android.widget.LinearLayout;
+
+import pl.sportdata.mojito.R;
 
 public class ViewUtils {
 
@@ -32,9 +36,13 @@ public class ViewUtils {
 
     public static void showWebViewDialog(@NonNull Context context, @NonNull String error) {
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle("Błąd serwera");
+        alert.setTitle(R.string.server_error);
+        alert.setPositiveButton(R.string.ok, null);
         WebView wv = new WebView(context);
         wv.loadData(error, "text/html", "UTF-8");
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        int margin = context.getResources().getDimensionPixelSize(R.dimen.small_margin);
+        params.setMargins(margin, margin, margin, margin);
         alert.setView(wv);
         alert.show();
     }
