@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group
-        android:id="@+id/group_bills"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/group_bills_title"
-            android:title="@string/bills">
+    <group android:checkableBehavior="single">
+        <item android:title="@string/bills">
             <menu>
                 <item
                     android:id="@+id/nav_bills_own_open"
@@ -19,12 +15,8 @@
         </item>
     </group>
 
-    <group
-        android:id="@+id/group_account"
-        android:checkableBehavior="none">
-        <item
-            android:id="@+id/group_account_title"
-            android:title="@string/waiter_account">
+    <group android:checkableBehavior="none">
+        <item android:title="@string/waiter_account">
             <menu>
                 <item
                     android:id="@+id/nav_waiter_account_settings"
@@ -37,9 +29,7 @@
         </item>
     </group>
 
-    <group
-        android:id="@+id/group_actions"
-        android:checkableBehavior="none">
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_waiter_account_login"
             android:title="@string/waiter_account_login" />

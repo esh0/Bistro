@@ -36,12 +36,6 @@
 
     <style name="commonListItemStyle"></style>
 
-    <style name="sectionHeaderItemStyle">
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Medium</item>
-        <item name="android:gravity">left|bottom</item>
-        <item name="android:paddingBottom">8dp</item>
-    </style>
-
     <style name="MojitoAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@color/gray_42</item>
         <item name="android:background">@color/gray_42</item>

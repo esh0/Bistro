@@ -4,16 +4,9 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Ustawienia</string>
-    <string name="title_activity_login">Zgłoszenie użytkownika</string>
     <string name="prompt_password">Hasło</string>
-    <string name="action_sign_in">Zaloguj się</string>
-    <string name="action_sign_in_short">Zaloguj</string>
-    <string name="error_invalid_user_id">Numer kelnera nie jest prawidłowy</string>
-    <string name="error_invalid_password">Hasło nie jest prawidłowe</string>
     <string name="error_field_required">Pole wymagane</string>
     <string name="prompt_user">Numer kelnera</string>
-    <string name="error_incorrect_login">Podane dane nie zgadzają się</string>
     <string name="bills_own_open">Otwarte własne</string>
     <string name="bills_all_open">Otwarte wszystkie</string>
     <string name="bills_own_closed">Zamknięte własne</string>
@@ -23,9 +16,7 @@
     <string name="waiter_account_settings">Ustawienia</string>
     <string name="waiter_account_permissions">Uprawnienia</string>
     <string name="waiter_account_logout">Wyloguj</string>
-    <string name="title_activity_bill_edition">Rachunek</string>
     <string name="undo">Cofnij</string>
-    <string name="action_bill_send">Wyślij bon</string>
     <string name="cancel">Anuluj</string>
     <string name="accept">Zatwierdź</string>
     <string name="guests_count">Liczba gości</string>
@@ -35,7 +26,6 @@
     <string name="invalid_guests_count">Nieprawidłowa liczba gości</string>
     <string name="invalid_table_number">Nieprawidłowy numer stolika</string>
     <string name="action_sync">Synchronizuj</string>
-    <string name="action_register">Zarejestruj się</string>
     <string name="pref_host_ip">Adres IP serwera</string>
     <string name="pref_pattern_login">Logowanie wzorem</string>
     <string name="pref_host_port">Numer portu serwera</string>
@@ -57,7 +47,6 @@
     <string name="remove_value_changeable">Usuń rabaty, narzuty lub płatności.</string>
     <string name="bill_split">Podziel rachunek</string>
     <string name="bill_split_failed">Nie można dokonać podziału rachunku.</string>
-    <string name="gip_error">Błąd GIP</string>
     <string name="bill_closed" formatted="false">Rachunek %s\\%s został zamknięty</string>
     <string name="cannot_reopen_bill">Nie można odtworzyć rachunku</string>
     <string name="bill_closing">Zamknięcie rachunku</string>

@@ -19,7 +19,6 @@
         app:srcCompat="@drawable/mojito_logo_white" />
 
     <TextView
-        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/imageView2"
@@ -31,7 +30,6 @@
         android:textColor="@color/white" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

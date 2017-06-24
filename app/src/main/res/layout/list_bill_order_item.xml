@@ -30,7 +30,6 @@
                 app:srcCompat="@drawable/reorder_active" />
 
             <LinearLayout
-                android:id="@+id/bill_item_label_layout"
                 android:layout_width="0px"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

@@ -12,7 +12,6 @@
         android:focusableInTouchMode="true" />
 
     <TextView
-        android:id="@+id/price_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/price_text"
@@ -34,7 +33,6 @@
         tools:text="12.00" />
 
     <TextView
-        android:id="@+id/storno_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/storno_checkbox"
