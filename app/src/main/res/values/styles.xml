@@ -10,7 +10,7 @@
         <item name="android:textColorSecondary">@color/gray_94</item>
         <item name="subtitleTextColor">@color/colorAccent</item>
         <item name="patternViewStyle">@style/PatternView</item>
-        <item name="alertDialogTheme">@style/MojitoAlertDialogTheme</item>
+        <item name="alertDialogTheme">@style/BeestroAlertDialogTheme</item>
 
         <item name="android:windowBackground">@color/gray_30</item>
     </style>
@@ -36,7 +36,7 @@
 
     <style name="commonListItemStyle"></style>
 
-    <style name="MojitoAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+    <style name="BeestroAlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
         <item name="android:windowBackground">@color/gray_42</item>
         <item name="android:background">@color/gray_42</item>
         <item name="android:textColor">@color/white</item>

@@ -29,7 +29,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/list"
-        android:name="pl.sportdata.mojito.bills.BillsFragment"
+        android:name="pl.sportdata.beestro.bills.BillsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/label"

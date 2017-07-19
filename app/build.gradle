@@ -30,11 +30,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "pl.sportdata.mojito"
+        applicationId "pl.sportdata.beestro"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 10
-        versionName "1.0-rc3"
+        versionCode 11
+        versionName "1.0-rc4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary true
         buildConfigField("String", "BUILD_TIME", getBuildTime())

@@ -13,14 +13,14 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/add_value"
+            android:id="@+id/sub_value"
             android:layout_width="32dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:foreground="?attr/selectableItemBackground"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/numberpicker_add" />
+            app:srcCompat="@drawable/numberpicker_subtract" />
 
         <EditText
             android:id="@+id/value"
@@ -37,14 +37,14 @@
             tools:text="2" />
 
         <ImageView
-            android:id="@+id/sub_value"
+            android:id="@+id/add_value"
             android:layout_width="32dp"
             android:layout_height="35dp"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:foreground="?attr/selectableItemBackground"
             android:scaleType="centerInside"
-            app:srcCompat="@drawable/numberpicker_subtract" />
+            app:srcCompat="@drawable/numberpicker_add" />
 
     </LinearLayout>
 

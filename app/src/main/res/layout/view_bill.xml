@@ -29,25 +29,25 @@
             tools:text="2" />
 
         <TextView
-            android:id="@+id/table_label_text_view"
+            android:id="@+id/bill_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/small_margin"
             android:layout_toLeftOf="@+id/time_text_view"
             android:layout_toRightOf="@id/table_text_view"
-            android:ellipsize="end"
-            android:lines="1"
-            android:text="@string/table"
+            android:ellipsize="start"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/gray_30"
-            android:textSize="12sp" />
+            android:textSize="16sp"
+            tools:text="Rachunek 9/352" />
 
         <TextView
             android:id="@+id/time_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBaseline="@id/table_label_text_view"
+            android:layout_alignBaseline="@id/bill_text_view"
             android:layout_alignParentRight="true"
             android:layout_gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
@@ -55,20 +55,19 @@
             tools:text="> 180 min" />
 
         <TextView
-            android:id="@+id/bill_text_view"
-            android:layout_width="wrap_content"
+            android:id="@+id/description_text_view"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/table_label_text_view"
+            android:layout_below="@id/bill_text_view"
             android:layout_gravity="center_vertical"
             android:layout_marginBottom="@dimen/small_margin"
             android:layout_toRightOf="@id/table_text_view"
-            android:ellipsize="start"
-            android:lines="1"
-            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/gray_30"
-            android:textSize="16sp"
-            tools:text="Rachunek 9/352" />
+            android:textSize="12sp"
+            tools:text="Opis rachunku" />
 
         <View
             android:id="@+id/separator_view"
@@ -102,7 +101,7 @@
             android:layout_alignParentRight="true"
             android:layout_gravity="center_vertical"
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorAccentDark"
             tools:text="120,00zł" />
 
     </RelativeLayout>

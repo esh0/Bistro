@@ -15,7 +15,7 @@
         android:layout_height="64dp"
         android:layout_gravity="center_horizontal"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/mojito_logo_white" />
+        app:srcCompat="@drawable/beestro_logo" />
 
     <TextView
         android:id="@+id/version_text"
@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/heading"
         android:textSize="8sp"
         tools:text="1.0-rc2" />
 
@@ -31,12 +32,14 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="Kelner"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textColor="@color/heading" />
 
     <TextView
         android:id="@+id/logged_user_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/heading"
         tools:text="Krzysztof Kelner" />
 
 </LinearLayout>

@@ -8,29 +8,29 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="pl.sportdata.mojito.modules.credentials.PermissionsActivityImpl">
+    tools:context="pl.sportdata.beestro.modules.credentials.PermissionsActivityImpl">
 
-    <pl.sportdata.mojito.widgets.PermissionView
+    <pl.sportdata.beestro.widgets.PermissionView
         android:id="@+id/bills_close_permision"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <pl.sportdata.mojito.widgets.PermissionView
+    <pl.sportdata.beestro.widgets.PermissionView
         android:id="@+id/bills_overtake_permision"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <pl.sportdata.mojito.widgets.PermissionView
+    <pl.sportdata.beestro.widgets.PermissionView
         android:id="@+id/immediate_cancellation_permision"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <pl.sportdata.mojito.widgets.PermissionView
+    <pl.sportdata.beestro.widgets.PermissionView
         android:id="@+id/cancellation_permision"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <pl.sportdata.mojito.widgets.PermissionView
+    <pl.sportdata.beestro.widgets.PermissionView
         android:id="@+id/bills_prefill_permision"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

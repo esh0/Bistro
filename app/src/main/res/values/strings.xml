@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mojito</string>
+    <string name="app_name">Beestro</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -69,6 +69,7 @@
     <string name="pref_bills_columns_count">Ilość kolumn widoku rachunków</string>
     <string name="message_from_gh">Wiadomość z systemu GH</string>
     <string name="item_added_snack" formatted="false">Dodano %s</string>
+    <string name="description_added_snack" formatted="false">Dodano opis “%s”</string>
     <string name="close">Zamknij</string>
     <string name="no_bills">Brak rachunków</string>
     <string name="new_bill_label" formatted="false">Nowy rachunek na stolik %d</string>
@@ -108,4 +109,13 @@
     <string name="please_wait">Proszę czekać…</string>
     <string name="table">Stolik</string>
     <string name="license_expired">Licencja wygasła</string>
+    <string name="action_clean_sync">Zresetuj z GIP</string>
+    <string name="action_clean">Wyczyść bazę</string>
+    <string name="extra_description_title">Edytuj opis rachunku</string>
+    <string name="split_order">Podziel rachunek</string>
+    <string name="change_table">Stolik</string>
+    <string name="bill_description">Opis rachunku</string>
+    <string name="search">Szukaj</string>
+    <string name="close_bill">Zamknij</string>
+    <string name="change_guests">Liczba gości</string>
 </resources>

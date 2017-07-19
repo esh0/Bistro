@@ -7,7 +7,7 @@
     android:layout_height="@dimen/list_item_height"
     android:background="@drawable/bg_swipe_item_neutral">
 
-    <pl.sportdata.mojito.widgets.PagerSwipeItemFrameLayout
+    <pl.sportdata.beestro.widgets.PagerSwipeItemFrameLayout
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -125,6 +125,6 @@
 
         </RelativeLayout>
 
-    </pl.sportdata.mojito.widgets.PagerSwipeItemFrameLayout>
+    </pl.sportdata.beestro.widgets.PagerSwipeItemFrameLayout>
 
 </FrameLayout>

@@ -13,7 +13,7 @@
 
         <!-- Converted from ic_expand_less_24px.svg part of the material-design-icons -->
         <path
-            android:fillColor="@color/gray_a8"
+            android:fillColor="@color/white"
             android:pathData="M12 8l-6 6 1.41 1.41L12 10.83l4.59 4.58L18 14z" />
     </group>
 

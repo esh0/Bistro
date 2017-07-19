@@ -19,7 +19,7 @@
             android:layout_height="96dp"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            app:srcCompat="@drawable/mojito_logo" />
+            app:srcCompat="@drawable/beestro_sign" />
 
         <TextView
             android:id="@+id/message_text"

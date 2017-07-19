@@ -52,7 +52,7 @@
                 android:text="Ilość"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-            <pl.sportdata.mojito.widgets.NumberPickerView
+            <pl.sportdata.beestro.widgets.NumberPickerView
                 android:id="@+id/amount_picker_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
@@ -96,7 +96,7 @@
                 android:text="Gość"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
-            <pl.sportdata.mojito.widgets.NumberPickerView
+            <pl.sportdata.beestro.widgets.NumberPickerView
                 android:id="@+id/guest_picker_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />

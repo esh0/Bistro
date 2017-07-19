@@ -5,13 +5,13 @@
         android:id="@+id/action_done"
         android:icon="@drawable/ic_done_white_24dp"
         android:orderInCategory="100"
-        android:title="Zakończ"
+        android:title="@string/close_bill"
         app:showAsAction="always" />
     <item
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search_white_24dp"
         android:orderInCategory="101"
-        android:title="Szukaj"
+        android:title="@string/search"
         android:visible="false"
         app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="always|collapseActionView" />
@@ -22,19 +22,23 @@
         app:actionLayout="@layout/switch_layout"
         app:showAsAction="always" />
     <item
-        android:id="@+id/action_change_table"
+        android:id="@+id/action_edit_description"
         android:orderInCategory="201"
-        android:title="Zmień stolik"
+        android:title="@string/bill_description"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_change_table"
+        android:orderInCategory="202"
+        android:title="@string/change_table"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_change_guests"
-        android:orderInCategory="202"
-        android:title="Liczba gości"
+        android:orderInCategory="203"
+        android:title="@string/change_guests"
         app:showAsAction="never" />
-
     <item
         android:id="@+id/action_split_order"
-        android:orderInCategory="203"
-        android:title="Podziel rachunek"
+        android:orderInCategory="204"
+        android:title="@string/split_order"
         app:showAsAction="never" />
 </menu>
