@@ -34,4 +34,11 @@
         android:inputType="phone"
         android:key="pref_bills_columns_count"
         android:title="@string/pref_bills_columns_count" />
+
+    <EditTextPreference
+        android:defaultValue="1"
+        android:digits="0123456789"
+        android:inputType="phone"
+        android:key="product_columns_count"
+        android:title="@string/product_columns_count" />
 </PreferenceScreen>

@@ -7,6 +7,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
+import pl.sportdata.beestro.BeestroApplication;
 import pl.sportdata.beestro.R;
 
 public class SettingsFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
@@ -36,12 +37,14 @@ public class SettingsFragment extends PreferenceFragment implements Preference.O
         findPreference(SALE_POINT_ID_PREF).setOnPreferenceChangeListener(this);
         findPreference(DEVICE_ID_PREF).setOnPreferenceChangeListener(this);
         findPreference(BILLS_COLUMNS_COUNT_PREF).setOnPreferenceChangeListener(this);
+        findPreference(BeestroApplication.PRODUCT_COLUMNS_COUNT_PREF_KEY).setOnPreferenceChangeListener(this);
 
         setPreferenceSummary(HOST_IP_PREF);
         setPreferenceSummary(HOST_PORT_PREF);
         setPreferenceSummary(SALE_POINT_ID_PREF);
         setPreferenceSummary(DEVICE_ID_PREF);
         setPreferenceSummary(BILLS_COLUMNS_COUNT_PREF);
+        setPreferenceSummary(BeestroApplication.PRODUCT_COLUMNS_COUNT_PREF_KEY);
     }
 
     private void setPreferenceSummary(String prefKey) {

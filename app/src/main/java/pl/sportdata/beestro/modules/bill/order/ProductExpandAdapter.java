@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,25 +28,30 @@ import pl.sportdata.beestro.R;
 import pl.sportdata.beestro.entities.items.Item;
 
 public class ProductExpandAdapter
-        extends ExpandableRecyclerAdapter<ProductExpandAdapter.Group, Item, ProductExpandAdapter.GroupViewHolder, ProductExpandAdapter.ItemViewHolder>
+        extends ExpandableRecyclerAdapter<ProductExpandAdapter.Group, List<Item>, ProductExpandAdapter.GroupViewHolder, ChildViewHolder>
         implements Filterable {
 
     private final LayoutInflater inflater;
     private final String pluFormat;
     private final Listener listener;
     private final List<Group> originalParentListItem;
+    private final int productColumns;
     private List<Integer> colors;
 
-    public ProductExpandAdapter(@NonNull Context context, @NonNull List<Group> parentItemList, @NonNull final Listener listener) {
+    public ProductExpandAdapter(@NonNull Context context, @NonNull List<Group> parentItemList, @NonNull final Listener listener, int productColumns) {
         super(parentItemList);
         originalParentListItem = Collections.unmodifiableList(parentItemList);
-
+        this.productColumns = productColumns;
         colors = calculateShades(Color.rgb(0xf5, 0x7f, 0x17), Color.rgb(0xff, 0xfd, 0xe7), parentItemList.size());
         int maxId = 0;
         for (Group group : parentItemList) {
             if (group.getChildList() != null) {
-                for (Item item : group.getChildList()) {
-                    maxId = Math.max(maxId, item.id);
+                for (List<Item> itemList : group.getChildList()) {
+                    if (itemList != null) {
+                        for (Item item : itemList) {
+                            maxId = Math.max(maxId, item.id);
+                        }
+                    }
                 }
             }
         }
@@ -75,9 +81,22 @@ public class ProductExpandAdapter
 
     @NonNull
     @Override
-    public ItemViewHolder onCreateChildViewHolder(@NonNull ViewGroup childViewGroup, int viewType) {
-        View view = inflater.inflate(R.layout.list_bill_product_item, childViewGroup, false);
-        return new ItemViewHolder(view);
+    public ChildViewHolder onCreateChildViewHolder(@NonNull ViewGroup childViewGroup, int viewType) {
+        if (productColumns == 1) {
+            return new ItemViewHolder(inflater.inflate(R.layout.list_bill_product_item, childViewGroup, false));
+        } else {
+            LinearLayout view = (LinearLayout) inflater.inflate(R.layout.list_bill_product_item_container, childViewGroup, false);
+            view.setWeightSum(productColumns);
+            List<ItemView> itemViews = new ArrayList<>(productColumns);
+            for (int i = 0; i < productColumns; i++) {
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                params.setMargins(1, 1, 1, 1);
+                View itemView = inflater.inflate(R.layout.list_bill_product_item_grid, view, false);
+                itemViews.add(new ItemView(itemView));
+                view.addView(itemView, params);
+            }
+            return new GridItemViewHolder(view, itemViews);
+        }
     }
 
     @Override
@@ -88,19 +107,44 @@ public class ProductExpandAdapter
     }
 
     @Override
-    public void onBindChildViewHolder(@NonNull ItemViewHolder childViewHolder, int parentPosition, int childPosition, @NonNull final Item child) {
-        childViewHolder.nameTextView.setText(child.name);
-        childViewHolder.pluTextView.setText(String.format(pluFormat, child.id));
-        childViewHolder.priceTextView.setText(String.format(Locale.getDefault(), "%.2fzł", child.price));
-        childViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onProductSelected(child);
+    public void onBindChildViewHolder(@NonNull ChildViewHolder childViewHolder, int parentPosition, int childPosition, @NonNull List<Item> child) {
+        if (productColumns == 1) {
+            ItemView itemView = ((ItemViewHolder) childViewHolder).container;
+            final Item item = child.get(0);
+            itemView.nameTextView.setText(item.name);
+            itemView.pluTextView.setText(String.format(pluFormat, item.id));
+            itemView.priceTextView.setText(String.format(Locale.getDefault(), "%.2fzł", item.price));
+            ((ItemViewHolder) childViewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onProductSelected(item);
+                }
+            });
+        } else {
+            for (int i = 0; i < productColumns; i++) {
+                View view = ((GridItemViewHolder) childViewHolder).container.getChildAt(i);
+                if (i < child.size()) {
+                    final Item item = child.get(i);
+                    ItemView itemView = ((GridItemViewHolder) childViewHolder).itemViews.get(i);
+                    itemView.nameTextView.setText(item.name);
+                    itemView.pluTextView.setText(String.format(pluFormat, item.id));
+                    itemView.priceTextView.setText(String.format(Locale.getDefault(), "%.2fzł", item.price));
+
+                    view.setVisibility(View.VISIBLE);
+                    view.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            listener.onProductSelected(item);
+                        }
+                    });
+                } else {
+                    view.setVisibility(View.INVISIBLE);
+                }
             }
-        });
+        }
     }
 
-    public List<Integer> calculateShades(@ColorInt int fromColor, @ColorInt int toColor, int numberShades) {
+    private List<Integer> calculateShades(@ColorInt int fromColor, @ColorInt int toColor, int numberShades) {
         if (numberShades <= 0) {
             return Collections.emptyList();
         }
@@ -162,16 +206,20 @@ public class ProductExpandAdapter
                         final List<Item> filteredContains = new ArrayList<>(0);
                         final List<Item> filteredIdContains = new ArrayList<>(0);
 
-                        for (Item item : group.getChildList()) {
-                            if (item.name.toLowerCase().startsWith(filterString)) {
-                                filteredStartsWith.add(item);
-                            }
-                            if (item.name.toLowerCase().contains(filterString) && !filteredStartsWith.contains(item)) {
-                                filteredContains.add(item);
-                            }
-                            if (String.valueOf(item.id).toLowerCase().contains(filterString) && !filteredStartsWith.contains(item) && !filteredContains
-                                    .contains(item)) {
-                                filteredIdContains.add(item);
+                        for (List<Item> itemList : group.getChildList()) {
+                            if (itemList != null) {
+                                for (Item item : itemList) {
+                                    if (item.name.toLowerCase().startsWith(filterString)) {
+                                        filteredStartsWith.add(item);
+                                    }
+                                    if (item.name.toLowerCase().contains(filterString) && !filteredStartsWith.contains(item)) {
+                                        filteredContains.add(item);
+                                    }
+                                    if (String.valueOf(item.id).toLowerCase().contains(filterString) && !filteredStartsWith.contains(item) && !filteredContains
+                                            .contains(item)) {
+                                        filteredIdContains.add(item);
+                                    }
+                                }
                             }
                         }
                         List<Item> filteredItems = new ArrayList<>(0);
@@ -180,7 +228,17 @@ public class ProductExpandAdapter
                         filteredItems.addAll(filteredIdContains);
 
                         if (!filteredItems.isEmpty()) {
-                            ((List<Group>) results.values).add(new Group(group.name, group.id, filteredItems, true));
+                            ProductExpandAdapter.Group listItem = new ProductExpandAdapter.Group(group.name, group.id, new ArrayList<List<Item>>(), true);
+                            for (int j = 0, size = filteredItems.size(); j < size; j++) {
+                                List<Item> items = new ArrayList<>(productColumns);
+                                for (int k = 0; k < productColumns; k++) {
+                                    if (j < size) {
+                                        items.add(filteredItems.get(j++));
+                                    }
+                                }
+                                listItem.getChildList().add(items);
+                            }
+                            ((List<Group>) results.values).add(listItem);
                         }
                     }
 
@@ -192,41 +250,41 @@ public class ProductExpandAdapter
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                colors = calculateShades(Color.rgb(0x00, 0x4D, 0x40), Color.rgb(0xB2, 0xDF, 0xDB), ((List<Group>) filterResults.values).size());
+                colors = calculateShades(Color.rgb(0xf5, 0x7f, 0x17), Color.rgb(0xff, 0xfd, 0xe7), ((List<Group>) filterResults.values).size());
                 setParentList((List<Group>) filterResults.values, false);
             }
         };
     }
 
     public void clearFilter() {
-        colors = calculateShades(Color.rgb(0x00, 0x4D, 0x40), Color.rgb(0xB2, 0xDF, 0xDB), originalParentListItem.size());
+        colors = calculateShades(Color.rgb(0xf5, 0x7f, 0x17), Color.rgb(0xff, 0xfd, 0xe7), originalParentListItem.size());
         setParentList(originalParentListItem, false);
     }
 
-    public List<ExpandableWrapper<Group, Item>> getFlatPositions() {
+    public List<ExpandableWrapper<Group, List<Item>>> getFlatPositions() {
         return mFlatItemList;
     }
 
-    public static class Group implements Parent<Item> {
+    public static class Group implements Parent<List<Item>> {
 
         private final String name;
-        private final List<Item> itemsList;
+        private final List<List<Item>> itemsList;
         private final int id;
         private boolean initiallyExpanded;
 
-        public Group(String name, int id, List<Item> itemsList) {
+        public Group(String name, int id, List<List<Item>> itemsList) {
             this.name = name;
             this.id = id;
             this.itemsList = itemsList;
         }
 
-        public Group(String name, int id, List<Item> itemsList, boolean initiallyExpanded) {
+        public Group(String name, int id, List<List<Item>> itemsList, boolean initiallyExpanded) {
             this(name, id, itemsList);
             this.initiallyExpanded = initiallyExpanded;
         }
 
         @Override
-        public List<Item> getChildList() {
+        public List<List<Item>> getChildList() {
             return itemsList;
         }
 
@@ -284,13 +342,33 @@ public class ProductExpandAdapter
 
     public class ItemViewHolder extends ChildViewHolder {
 
-        public TextView nameTextView;
-        public TextView pluTextView;
-        public TextView priceTextView;
+        public final ItemView container;
 
-        public ItemViewHolder(View itemView) {
-            super(itemView);
+        public ItemViewHolder(View container) {
+            super(container);
+            this.container = new ItemView(container);
+        }
+    }
 
+    public class GridItemViewHolder extends ChildViewHolder {
+
+        public final List<ItemView> itemViews;
+        public final LinearLayout container;
+
+        public GridItemViewHolder(LinearLayout container, List<ItemView> itemViews) {
+            super(container);
+            this.container = container;
+            this.itemViews = itemViews;
+        }
+    }
+
+    public class ItemView {
+
+        public final TextView nameTextView;
+        public final TextView pluTextView;
+        public final TextView priceTextView;
+
+        public ItemView(View itemView) {
             nameTextView = (TextView) itemView.findViewById(R.id.name_text_view);
             pluTextView = (TextView) itemView.findViewById(R.id.plu_text_view);
             priceTextView = (TextView) itemView.findViewById(R.id.price_text_view);

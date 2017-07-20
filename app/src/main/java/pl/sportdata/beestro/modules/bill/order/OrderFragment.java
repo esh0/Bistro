@@ -70,6 +70,7 @@ public class OrderFragment extends Fragment
     private SwipeRefreshLayout selectedItemsContainer;
     private LinearLayoutManager availableItemsLayoutManager;
     private int lastExpandedPosition;
+    private int productColumns;
 
     public static OrderFragment newInstance() {
         OrderFragment f = new OrderFragment();
@@ -105,17 +106,27 @@ public class OrderFragment extends Fragment
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        productColumns = ((BeestroApplication) getActivity().getApplication()).getProductColumnsCount();
         availableItemsLayoutManager = new LinearLayoutManager(getContext());
         beestroDataProvider = DataProviderFactory.getDataProvider(getActivity());
         List<ProductExpandAdapter.Group> itemsList = new ArrayList<>();
         for (Group group : beestroDataProvider.getGroups()) {
-            ProductExpandAdapter.Group listItem = new ProductExpandAdapter.Group(group.name, group.id, new ArrayList<Item>());
-            for (Item item : beestroDataProvider.getItems(group.id)) {
-                listItem.getChildList().add(item);
+            ProductExpandAdapter.Group listItem = new ProductExpandAdapter.Group(group.name, group.id, new ArrayList<List<Item>>());
+            List<Item> groupItems = beestroDataProvider.getItems(group.id);
+            if (groupItems != null) {
+                for (int i = 0, size = groupItems.size(); i < size; i++) {
+                    List<Item> items = new ArrayList<>(productColumns);
+                    for (int j = 0; j < productColumns; j++) {
+                        if (i < size) {
+                            items.add(groupItems.get(i++));
+                        }
+                    }
+                    listItem.getChildList().add(items);
+                }
             }
             itemsList.add(listItem);
         }
-        availableItemsAdapter = new ProductExpandAdapter(getContext(), itemsList, this);
+        availableItemsAdapter = new ProductExpandAdapter(getContext(), itemsList, this, productColumns);
         availableItemsRecycler.setLayoutManager(availableItemsLayoutManager);
         availableItemsRecycler.setAdapter(availableItemsAdapter);
 
@@ -367,6 +378,7 @@ public class OrderFragment extends Fragment
     public void onGroupSelected(int parentPosition) {
         if (lastExpandedPosition != -1 && parentPosition != lastExpandedPosition) {
             availableItemsAdapter.collapseParent(lastExpandedPosition);
+            availableItemsAdapter.notifyParentChanged(lastExpandedPosition);
         }
         lastExpandedPosition = parentPosition;
         LinearLayoutManager llm = (LinearLayoutManager) availableItemsRecycler.getLayoutManager();

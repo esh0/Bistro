@@ -16,6 +16,7 @@ import pl.sportdata.beestro.entities.users.User;
 public class BeestroApplication extends Application {
 
     private static final String LAST_LOCAL_BILL_ID_PREF_KEY = "lst-local-bill-id";
+    public static final String PRODUCT_COLUMNS_COUNT_PREF_KEY = "product_columns_count";
     public static final String PREF_KEY_USER = "pref-key-user";
     private SharedPreferences preferences;
 
@@ -43,5 +44,14 @@ public class BeestroApplication extends Application {
 
     public void setLastLocalBillId(int id) {
         PreferenceManager.getDefaultSharedPreferences(this).edit().putInt(LAST_LOCAL_BILL_ID_PREF_KEY, id).apply();
+    }
+
+    public int getProductColumnsCount() {
+        String value = PreferenceManager.getDefaultSharedPreferences(this).getString(PRODUCT_COLUMNS_COUNT_PREF_KEY, null);
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException ignored) {
+            return 1;
+        }
     }
 }
