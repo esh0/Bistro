@@ -27,6 +27,8 @@ import java.util.Locale;
 import pl.sportdata.beestro.R;
 import pl.sportdata.beestro.entities.items.Item;
 
+import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
+
 public class ProductExpandAdapter
         extends ExpandableRecyclerAdapter<ProductExpandAdapter.Group, List<Item>, ProductExpandAdapter.GroupViewHolder, ChildViewHolder>
         implements Filterable {
@@ -89,7 +91,7 @@ public class ProductExpandAdapter
             view.setWeightSum(productColumns);
             List<ItemView> itemViews = new ArrayList<>(productColumns);
             for (int i = 0; i < productColumns; i++) {
-                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1);
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, WRAP_CONTENT, 1);
                 params.setMargins(1, 1, 1, 1);
                 View itemView = inflater.inflate(R.layout.list_bill_product_item_grid, view, false);
                 itemViews.add(new ItemView(itemView));
