@@ -77,6 +77,14 @@ public class SplitBillsDialogFragment extends AppCompatDialogFragment {
                             }
                             dismiss();
                         }
+
+                        @Override
+                        public void onUnauthorized() {
+                            if (listener != null) {
+                                listener.onUnauthorized();
+                            }
+                            dismiss();
+                        }
                     });
                 } else {
                     if (listener != null) {
@@ -84,6 +92,14 @@ public class SplitBillsDialogFragment extends AppCompatDialogFragment {
                     }
                     dismiss();
                 }
+            }
+
+            @Override
+            public void onUnauthorized() {
+                if (listener != null) {
+                    listener.onUnauthorized();
+                }
+                dismiss();
             }
         });
     }
@@ -104,7 +120,7 @@ public class SplitBillsDialogFragment extends AppCompatDialogFragment {
         listener = null;
     }
 
-    public interface Listener {
+    public interface Listener extends DataProviderSyncListener {
 
         void onSplitBillsFinished(@Nullable String error);
     }

@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -325,6 +326,11 @@ public class MainActivityPresenter extends BasePresenter<MainActivityImpl>
 
         showBillsFragment(currentBillsType);
         updateSyncIcon();
+    }
+
+    @Override
+    public void onUnauthorized() {
+        Toast.makeText(getActivity(), R.string.unauthorized, Toast.LENGTH_LONG).show();
     }
 
     @Override

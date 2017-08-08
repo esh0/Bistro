@@ -52,6 +52,15 @@ public abstract class SyncDialogFragment extends AppCompatDialogFragment impleme
         dismiss();
     }
 
+    @Override
+    public void onUnauthorized() {
+        if (listener != null) {
+            listener.onUnauthorized();
+        }
+
+        dismiss();
+    }
+
     public Listener getListener() {
         return listener;
     }
@@ -59,5 +68,7 @@ public abstract class SyncDialogFragment extends AppCompatDialogFragment impleme
     public interface Listener {
 
         void onSyncFinished(@Nullable String error);
+
+        void onUnauthorized();
     }
 }

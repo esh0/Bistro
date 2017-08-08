@@ -37,4 +37,9 @@ public interface DataProviderCredentialsListener {
      * @param error can provide error if applicable
      */
     void onRegisterFail(@Nullable String error);
+
+    /**
+     * Called when operation was not authorized
+     */
+    void onUnauthorized();
 }

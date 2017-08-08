@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -102,6 +103,12 @@ public class LoginActivityPresenter extends BasePresenter<LoginActivityImpl> imp
             @Override
             public void onRegisterFail(@Nullable String error) {
 
+            }
+
+            @Override
+            public void onUnauthorized() {
+                onLoginFail(null);
+                Toast.makeText(getActivity(), R.string.unauthorized, Toast.LENGTH_LONG).show();
             }
         };
 

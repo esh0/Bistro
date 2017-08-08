@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -50,6 +51,9 @@ import pl.sportdata.beestro.modules.credentials.SettingsFragment;
 
 public class PalmGipDataProvider implements DataProvider {
 
+    private static final String LOGIN_URL = "/login";
+    private static final String SYNC_URL = "/sync";
+    private static final String REGISTER_URL = "/register";
     public static final String SYNC_OBJECT_STORAGE_KEY = "sync-object-storage-key";
     private final Context context;
     private SyncObject syncObject;
@@ -159,11 +163,18 @@ public class PalmGipDataProvider implements DataProvider {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    listener.onLoginFail(new String(error.networkResponse.data));
+                String errorMessage = null;
+                if (error.networkResponse != null) {
+                    if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        listener.onUnauthorized();
+                    } else if (error.networkResponse.data != null) {
+                        errorMessage = new String(error.networkResponse.data);
+                    }
                 } else {
-                    listener.onLoginFail(error.getMessage());
+                    errorMessage = error.getMessage();
                 }
+
+                listener.onLoginFail(errorMessage);
             }
         };
     }
@@ -187,11 +198,18 @@ public class PalmGipDataProvider implements DataProvider {
         return new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error.networkResponse != null && error.networkResponse.data != null) {
-                    listener.onRegisterFail(new String(error.networkResponse.data));
+                String errorMessage = null;
+                if (error.networkResponse != null) {
+                    if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        listener.onUnauthorized();
+                    } else if (error.networkResponse.data != null) {
+                        errorMessage = new String(error.networkResponse.data);
+                    }
                 } else {
-                    listener.onRegisterFail(error.getMessage());
+                    errorMessage = error.getMessage();
                 }
+
+                listener.onRegisterFail(errorMessage);
             }
         };
     }
@@ -556,7 +574,7 @@ public class PalmGipDataProvider implements DataProvider {
     private String getSyncHostUrl() {
         String hostUrl = getHostUrl();
         if (!TextUtils.isEmpty(hostUrl)) {
-            hostUrl += "/sync";
+            hostUrl += SYNC_URL;
         }
 
         return hostUrl;
@@ -566,7 +584,7 @@ public class PalmGipDataProvider implements DataProvider {
     private String getLoginHostUrl() {
         String hostUrl = getHostUrl();
         if (!TextUtils.isEmpty(hostUrl)) {
-            hostUrl += "/login";
+            hostUrl += LOGIN_URL;
         }
 
         return hostUrl;
@@ -576,7 +594,7 @@ public class PalmGipDataProvider implements DataProvider {
     private String getRegisterHostUrl() {
         String hostUrl = getHostUrl();
         if (!TextUtils.isEmpty(hostUrl)) {
-            hostUrl += "/register";
+            hostUrl += REGISTER_URL;
         }
 
         return hostUrl;
@@ -610,10 +628,14 @@ public class PalmGipDataProvider implements DataProvider {
                 }
                 lastMessage = null;
 
-                if (error != null && error.networkResponse != null && error.networkResponse.data != null) {
-                    listener.onSyncFinished(new String(error.networkResponse.data));
-                } else if (error != null && error.networkResponse != null) {
-                    listener.onSyncFinished("Network error, status code: " + error.networkResponse.statusCode);
+                if (error != null && error.networkResponse != null) {
+                    if (error.networkResponse.statusCode == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                        listener.onUnauthorized();
+                    } else if (error.networkResponse.data != null) {
+                        listener.onSyncFinished(new String(error.networkResponse.data));
+                    } else {
+                        listener.onSyncFinished("Network error, status code: " + error.networkResponse.statusCode);
+                    }
                 } else if (error != null && !TextUtils.isEmpty(error.getMessage())) {
                     listener.onSyncFinished(error.getMessage());
                 } else {

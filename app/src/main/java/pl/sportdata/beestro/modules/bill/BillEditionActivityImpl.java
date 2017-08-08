@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import pl.sportdata.beestro.R;
 import pl.sportdata.beestro.entities.base.BeestroObject;
@@ -570,6 +571,11 @@ public class BillEditionActivityImpl extends BillEditionActivity
     @Override
     public void onSyncFinished(@Nullable String error) {
         presenter.onSyncFinished(error);
+    }
+
+    @Override
+    public void onUnauthorized() {
+        Toast.makeText(this, R.string.unauthorized, Toast.LENGTH_LONG).show();
     }
 
     @Override
