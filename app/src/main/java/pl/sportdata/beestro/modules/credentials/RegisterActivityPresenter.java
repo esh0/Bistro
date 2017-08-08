@@ -139,6 +139,12 @@ public class RegisterActivityPresenter extends BasePresenter<RegisterActivityImp
                     ViewUtils.showWebViewDialog(getActivity(), error);
                 }
             }
+
+            @Override
+            public void onUnauthorized() {
+                onRegisterFail(null);
+                Toast.makeText(getActivity(), R.string.unauthorized, Toast.LENGTH_LONG).show();
+            }
         };
 
         DataProviderFactory.getDataProvider(getActivity())

@@ -119,4 +119,5 @@
     <string name="close_bill">Zamknij</string>
     <string name="change_guests">Liczba gości</string>
     <string name="product_columns_count">Ilość kolumn widoku produktów</string>
+    <string name="unauthorized">Brak autoryzacji</string>
 </resources>

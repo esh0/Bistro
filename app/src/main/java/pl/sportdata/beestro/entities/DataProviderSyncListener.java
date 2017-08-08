@@ -13,4 +13,9 @@ public interface DataProviderSyncListener {
      * @param error represents sync error or null if no error
      */
     void onSyncFinished(@Nullable String error);
+
+    /**
+     * Called when operation was not authorized
+     */
+    void onUnauthorized();
 }

@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Locale;
 
@@ -198,6 +199,11 @@ public class MainActivityImpl extends BasePresenterActivity
     @Override
     public void onSyncFinished(@Nullable String error) {
         presenter.onSyncFinished(error);
+    }
+
+    @Override
+    public void onUnauthorized() {
+        Toast.makeText(this, R.string.unauthorized, Toast.LENGTH_LONG).show();
     }
 
     @Override

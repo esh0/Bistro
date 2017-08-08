@@ -66,6 +66,14 @@ public class MergeBillsDialogFragment extends AppCompatDialogFragment {
                 }
                 dismiss();
             }
+
+            @Override
+            public void onUnauthorized() {
+                if (listener != null) {
+                    listener.onUnauthorized();
+                }
+                dismiss();
+            }
         });
     }
 
@@ -85,7 +93,7 @@ public class MergeBillsDialogFragment extends AppCompatDialogFragment {
         listener = null;
     }
 
-    public interface Listener {
+    public interface Listener extends DataProviderSyncListener {
 
         void onMergeBillsFinished(@Nullable String error);
     }
