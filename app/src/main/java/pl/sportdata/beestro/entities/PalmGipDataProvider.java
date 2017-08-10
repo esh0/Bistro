@@ -32,6 +32,7 @@ import java.util.Map;
 
 import pl.sportdata.beestro.BeestroApplication;
 import pl.sportdata.beestro.PalmGipJsonObjectRequest;
+import pl.sportdata.beestro.R;
 import pl.sportdata.beestro.entities.base.BaseItemContainer;
 import pl.sportdata.beestro.entities.bills.Bill;
 import pl.sportdata.beestro.entities.bills.BillUtils;
@@ -84,7 +85,7 @@ public class PalmGipDataProvider implements DataProvider {
     public void registerPattern(int userId, @NonNull String userPass, @NonNull String pattern, @NonNull DataProviderCredentialsListener listener) {
         String hostUrl = getRegisterHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onLoginFail("Błędne ustawienia komunikacji");
+            listener.onLoginFail(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -112,7 +113,7 @@ public class PalmGipDataProvider implements DataProvider {
     public void login(@NonNull String pattern, @NonNull DataProviderCredentialsListener listener) {
         String hostUrl = getLoginHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onLoginFail("Błędne ustawienia komunikacji");
+            listener.onLoginFail(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -137,7 +138,7 @@ public class PalmGipDataProvider implements DataProvider {
     public void login(int userId, @NonNull String userPass, @NonNull DataProviderCredentialsListener listener) {
         String hostUrl = getLoginHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onLoginFail("Błędne ustawienia komunikacji");
+            listener.onLoginFail(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -188,7 +189,7 @@ public class PalmGipDataProvider implements DataProvider {
                 if (user != null) {
                     listener.onLoginSuccess(user);
                 } else {
-                    listener.onLoginFail("Pusta odpowiedź z serwera");
+                    listener.onLoginFail(context.getString(R.string.empty_response));
                 }
             }
         };
@@ -223,7 +224,7 @@ public class PalmGipDataProvider implements DataProvider {
                 if (user != null) {
                     listener.onRegisterSuccess(user);
                 } else {
-                    listener.onRegisterFail("Pusta odpowiedź z serwera");
+                    listener.onRegisterFail(context.getString(R.string.empty_response));
                 }
             }
         };
@@ -251,7 +252,7 @@ public class PalmGipDataProvider implements DataProvider {
         lastMessage = null;
         String hostUrl = getSyncHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onSyncFinished("Błędne ustawienia komunikacji");
+            listener.onSyncFinished(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -278,7 +279,7 @@ public class PalmGipDataProvider implements DataProvider {
         lastMessage = null;
         String hostUrl = getSyncHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onSyncFinished("Błędne ustawienia komunikacji");
+            listener.onSyncFinished(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -335,10 +336,10 @@ public class PalmGipDataProvider implements DataProvider {
                             }
 
                         } else {
-                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? "Brak rachunków" : newSyncObject.messages);
+                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? context.getString(R.string.no_bills) : newSyncObject.messages);
                         }
                     } else {
-                        listener.onSyncFinished("Pusta odpowiedź");
+                        listener.onSyncFinished(context.getString(R.string.empty_response));
                     }
                 }
             }, getSyncErrorListener(listener, false)) {
@@ -357,7 +358,7 @@ public class PalmGipDataProvider implements DataProvider {
         lastMessage = null;
         String hostUrl = getSyncHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onSyncFinished("Błędne ustawienia komunikacji");
+            listener.onSyncFinished(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -437,16 +438,17 @@ public class PalmGipDataProvider implements DataProvider {
                                             moveBillsForSplit(bills, moveTo + 1, listener);
                                         }
                                     } else {
-                                        listener.onSyncFinished("Nieprawidłowa odpowiedź po podziale rachunku");
+                                        listener.onSyncFinished(context.getString(R.string.wrong_response_after_split));
                                     }
                                 } else {
                                     listener.onSyncFinished(newSyncObject.messages);
                                 }
                             } else {
-                                listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? "Brak rachunków" : newSyncObject.messages);
+                                listener.onSyncFinished(
+                                        TextUtils.isEmpty(newSyncObject.messages) ? context.getString(R.string.no_bills) : newSyncObject.messages);
                             }
                         } else {
-                            listener.onSyncFinished("Pusta odpowiedź");
+                            listener.onSyncFinished(context.getString(R.string.empty_response));
                         }
                     }
                 }, getSyncErrorListener(listener, false)) {
@@ -466,7 +468,7 @@ public class PalmGipDataProvider implements DataProvider {
         lastMessage = null;
         String hostUrl = getSyncHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onSyncFinished("Błędne ustawienia komunikacji");
+            listener.onSyncFinished(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -499,10 +501,10 @@ public class PalmGipDataProvider implements DataProvider {
                                 listener.onSyncFinished(newSyncObject.messages);
                             }
                         } else {
-                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? "Brak rachunków" : newSyncObject.messages);
+                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? context.getString(R.string.no_bills) : newSyncObject.messages);
                         }
                     } else {
-                        listener.onSyncFinished("Pusta odpowiedź");
+                        listener.onSyncFinished(context.getString(R.string.empty_response));
                     }
                 }
             }, getSyncErrorListener(listener, false)) {
@@ -520,7 +522,7 @@ public class PalmGipDataProvider implements DataProvider {
         lastMessage = null;
         String hostUrl = getSyncHostUrl();
         if (TextUtils.isEmpty(hostUrl)) {
-            listener.onSyncFinished("Błędne ustawienia komunikacji");
+            listener.onSyncFinished(context.getString(R.string.wrong_comm_settings));
         } else {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
             String salePointId = sharedPref.getString(SettingsFragment.SALE_POINT_ID_PREF, "");
@@ -553,10 +555,10 @@ public class PalmGipDataProvider implements DataProvider {
                                 listener.onSyncFinished(newSyncObject.messages);
                             }
                         } else {
-                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? "Brak rachunków" : newSyncObject.messages);
+                            listener.onSyncFinished(TextUtils.isEmpty(newSyncObject.messages) ? context.getString(R.string.no_bills) : newSyncObject.messages);
                         }
                     } else {
-                        listener.onSyncFinished("Pusta odpowiedź");
+                        listener.onSyncFinished(context.getString(R.string.empty_response));
                     }
                 }
             }, getSyncErrorListener(listener, false)) {
@@ -634,12 +636,12 @@ public class PalmGipDataProvider implements DataProvider {
                     } else if (error.networkResponse.data != null) {
                         listener.onSyncFinished(new String(error.networkResponse.data));
                     } else {
-                        listener.onSyncFinished("Network error, status code: " + error.networkResponse.statusCode);
+                        listener.onSyncFinished(String.format(context.getString(R.string.network_error), error.networkResponse.statusCode));
                     }
                 } else if (error != null && !TextUtils.isEmpty(error.getMessage())) {
                     listener.onSyncFinished(error.getMessage());
                 } else {
-                    listener.onSyncFinished("Empty network response, check server and wifi connection");
+                    listener.onSyncFinished(context.getString(R.string.check_connection));
                 }
             }
         };

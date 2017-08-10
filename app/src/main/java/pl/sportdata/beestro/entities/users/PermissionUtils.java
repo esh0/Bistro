@@ -1,21 +1,24 @@
 package pl.sportdata.beestro.entities.users;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
+
+import pl.sportdata.beestro.R;
 
 public class PermissionUtils {
 
-    @NonNull
-    public static String getPermissionModeLabel(@Permission.PermissionMode int mode) {
-        String label = "";
+    @StringRes
+    public static int getPermissionModeLabel(@Permission.PermissionMode int mode) {
+        @StringRes int label = 0;
         switch (mode) {
             case Permission.PERMISSION_MODE_AUTHORIZED:
-                label = "dostępne";
+                label = R.string.allowed;
                 break;
             case Permission.PERMISSION_MODE_UNAUTHORIZED:
-                label = "niedostępne";
+                label = R.string.notallowed;
                 break;
             case Permission.PERMISSION_MODE_SUPERVISED:
-                label = "autoryzowane";
+                label = R.string.authorized;
                 break;
         }
         return label;

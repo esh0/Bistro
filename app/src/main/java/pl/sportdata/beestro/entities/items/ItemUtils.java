@@ -5,17 +5,19 @@ import android.text.TextUtils;
 
 import java.util.List;
 
+import pl.sportdata.beestro.entities.base.BeestroObjectUtils;
+
 public class ItemUtils {
 
     public static final String SEPARATOR_NAME = "----------";
     public static final String DESCRIPTOR_NAME = "<?>";
 
     public static boolean isItemGroupSeparator(@Nullable Item item) {
-        return item != null && SEPARATOR_NAME.equals(item.name) && "N".equalsIgnoreCase(item.type);
+        return item != null && SEPARATOR_NAME.equals(item.name) && BeestroObjectUtils.isNormalType(item);
     }
 
     public static boolean isItemDescriptor(@Nullable Item item) {
-        return item != null && DESCRIPTOR_NAME.equals(item.name) && "T".equalsIgnoreCase(item.type);
+        return item != null && DESCRIPTOR_NAME.equals(item.name) && BeestroObjectUtils.isTextType(item);
     }
 
     @Nullable

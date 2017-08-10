@@ -37,6 +37,7 @@ import pl.sportdata.beestro.BeestroApplication;
 import pl.sportdata.beestro.R;
 import pl.sportdata.beestro.entities.DataProvider;
 import pl.sportdata.beestro.entities.DataProviderFactory;
+import pl.sportdata.beestro.entities.base.BeestroObjectUtils;
 import pl.sportdata.beestro.entities.bills.Bill;
 import pl.sportdata.beestro.entities.bills.BillUtils;
 import pl.sportdata.beestro.entities.entries.Entry;
@@ -344,9 +345,9 @@ public class OrderFragment extends Fragment
 
     @Override
     public void onProductSelected(Item product) {
-        if ("O".equals(product.type)) {
+        if (BeestroObjectUtils.isOpenPriceType(product)) {
             listener.enterProductPrice(product);
-        } else if ("T".equals(product.type)) {
+        } else if (BeestroObjectUtils.isTextType(product)) {
             addDescriptionToLastItem(product);
         } else {
             addNewItem(product, product.price, 1);

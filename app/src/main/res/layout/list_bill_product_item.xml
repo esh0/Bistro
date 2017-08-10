@@ -39,7 +39,6 @@
         android:layout_marginRight="@dimen/normal_margin"
         android:layout_weight="1"
         android:maxLines="1"
-        android:text="#0001"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textColor="@color/gray_a8"
         android:textSize="16sp" />

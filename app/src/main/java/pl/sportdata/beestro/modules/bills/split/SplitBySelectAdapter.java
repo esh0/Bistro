@@ -29,12 +29,14 @@ class SplitBySelectAdapter extends AbstractExpandableItemAdapter<SplitBySelectAd
     private final RecyclerViewExpandableItemManager mExpandableItemManager;
     private final AbstractExpandableDataProvider mProvider;
     private final DataProvider beestroDataProvider;
+    private final Context context;
     private EventListener mEventListener;
 
     public SplitBySelectAdapter(Context context, RecyclerViewExpandableItemManager expandableItemManager, AbstractExpandableDataProvider dataProvider) {
         mExpandableItemManager = expandableItemManager;
         mProvider = dataProvider;
         beestroDataProvider = DataProviderFactory.getDataProvider(context);
+        this.context = context;
         setHasStableIds(true);
     }
 
@@ -109,7 +111,7 @@ class SplitBySelectAdapter extends AbstractExpandableItemAdapter<SplitBySelectAd
     public void onBindGroupViewHolder(BillGroupViewHolder holder, int groupPosition, int viewType) {
         final AbstractExpandableDataProvider.GroupBillData item = mProvider.getGroupItem(groupPosition);
 
-        holder.nameTextView.setText(String.format("Rachunek %s", item.getGroupId()));
+        holder.nameTextView.setText(String.format(context.getString(R.string.bill_number), item.getGroupId()));
         holder.container.setBackgroundResource(R.drawable.bg_group_item_normal_state);
         holder.setSwipeItemHorizontalSlideAmount(0);
     }

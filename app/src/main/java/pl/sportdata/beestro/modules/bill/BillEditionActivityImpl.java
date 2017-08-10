@@ -520,7 +520,7 @@ public class BillEditionActivityImpl extends BillEditionActivity
 
     @Override
     public void onDiscountSelected(Discount discount) {
-        if ("O".equals(discount.type) || "T".equals(discount.type)) {
+        if (BeestroObjectUtils.isOpenPriceType(discount) || BeestroObjectUtils.isTextType(discount)) {
             NumberInputDialogFragment f = new NumberInputDialogFragment.Builder().setDefaultValue(String.valueOf(1)).setTitle(discount.name)
                     .setPositiveButtonLabel(getString(R.string.accept)).setNegativeButtonLabel(getString(R.string.cancel)).setAllowDecimals(true).build();
 

@@ -120,4 +120,25 @@
     <string name="change_guests">Liczba gości</string>
     <string name="product_columns_count">Ilość kolumn widoku produktów</string>
     <string name="unauthorized">Brak autoryzacji</string>
+    <string name="login">Zaloguj się</string>
+    <string name="separate">Wydziel</string>
+    <string name="done">Zakończ</string>
+    <string name="price">Cena</string>
+    <string name="amount">Ilość</string>
+    <string name="cancellation">Storno</string>
+    <string name="guest">Gość</string>
+    <string name="extra_description">Dodatkowy opis</string>
+    <string name="value">Wartość</string>
+    <string name="waiter">Kelner</string>
+    <string name="not_allowed_for_demo">Operacja niemożliwa dla wersji DEMO</string>
+    <string name="allowed">Dostępne</string>
+    <string name="notallowed">Niedostępne</string>
+    <string name="authorized">Autoryzowane</string>
+    <string name="extract" formatted="false">Wydziel %d</string>
+    <string name="bill_number" formatted="false">Rachunek %d</string>
+    <string name="wrong_comm_settings">Błędne ustawienia komunikacji</string>
+    <string name="empty_response">Pusta odpowiedź z serwera</string>
+    <string name="wrong_response_after_split">Nieprawidłowa odpowiedź po podziale rachunku</string>
+    <string name="network_error" formatted="false">Błąd sieci, kod błędu: %d</string>
+    <string name="check_connection">Sprawdź połączenie sieciowe lub usługę serwera.</string>
 </resources>
