@@ -73,7 +73,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="@dimen/normal_margin"
                 android:maxLines="1"
-                android:text="1"
                 android:textAppearance="?attr/textAppearanceListItem"
                 android:textColor="@color/gray_a8"
                 android:textSize="14sp" />

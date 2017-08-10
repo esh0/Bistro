@@ -118,17 +118,17 @@ public class MockDataProvider implements DataProvider {
 
     @Override
     public void createBillsForSplit(@NonNull List<Bill> bills, @NonNull DataProviderSyncListener listener) {
-        listener.onSyncFinished("Operacja niemożliwa dla wersji DEMO");
+        listener.onSyncFinished(context.getString(R.string.not_allowed_for_demo));
     }
 
     @Override
     public void moveBillsForSplit(@NonNull List<Bill> bills, final int moveTo, @NonNull DataProviderSyncListener listener) {
-        listener.onSyncFinished("Operacja niemożliwa dla wersji DEMO");
+        listener.onSyncFinished(context.getString(R.string.not_allowed_for_demo));
     }
 
     @Override
     public void mergeBills(@NonNull Bill bill, @NonNull DataProviderSyncListener listener) {
-        listener.onSyncFinished("Operacja niemożliwa dla wersji DEMO");
+        listener.onSyncFinished(context.getString(R.string.not_allowed_for_demo));
     }
 
     private SyncTaskListener getSyncListener() {

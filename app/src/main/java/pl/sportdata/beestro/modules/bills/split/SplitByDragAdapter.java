@@ -91,7 +91,7 @@ class SplitByDragAdapter extends AbstractExpandableItemAdapter<SplitByDragAdapte
     public void onBindGroupViewHolder(BillGroupViewHolder holder, int groupPosition, int viewType) {
         final AbstractExpandableDataProvider.GroupBillData item = mProvider.getGroupItem(groupPosition);
 
-        holder.nameTextView.setText(String.format("Rachunek", item.getGroupId()));
+        holder.nameTextView.setText(String.format(context.getString(R.string.bill_number), item.getGroupId()));
 
         final int dragState = holder.getDragStateFlags();
 

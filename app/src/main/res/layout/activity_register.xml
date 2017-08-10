@@ -104,7 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/register_step_flipper"
-            android:text="Dalej"
+            android:text="@string/next"
             android:textColor="@color/colorAccentLight" />
 
     </RelativeLayout>

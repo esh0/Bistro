@@ -6,7 +6,7 @@
         android:id="@+id/action_split"
         android:icon="@drawable/ic_launch_white_24dp"
         android:orderInCategory="100"
-        android:title="Wydziel"
+        android:title="@string/separate"
         android:visible="false"
         app:showAsAction="always|withText" />
 
@@ -14,6 +14,6 @@
         android:id="@+id/action_done"
         android:icon="@drawable/ic_done_white_24dp"
         android:orderInCategory="101"
-        android:title="Zakończ"
+        android:title="@string/done"
         app:showAsAction="always" />
 </menu>

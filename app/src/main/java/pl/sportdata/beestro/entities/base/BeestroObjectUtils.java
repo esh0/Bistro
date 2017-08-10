@@ -13,4 +13,8 @@ public final class BeestroObjectUtils {
     public static boolean isCardType(BeestroObject item) {
         return "K".equals(item.type);
     }
+
+    public static boolean isNormalType(BeestroObject item) {
+        return "N".equals(item.type);
+    }
 }

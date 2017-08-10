@@ -105,7 +105,6 @@
                             android:layout_gravity="center_vertical"
                             android:maxLines="1"
                             android:minWidth="24dp"
-                            android:text="1"
                             android:textAppearance="?attr/textAppearanceListItem"
                             android:textSize="14sp" />
                     </LinearLayout>

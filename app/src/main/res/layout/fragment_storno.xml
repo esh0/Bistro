@@ -19,7 +19,7 @@
         android:layout_toLeftOf="@+id/price_text"
         android:gravity="left"
         android:selectAllOnFocus="true"
-        android:text="Wartość"
+        android:text="@string/value"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <EditText
@@ -38,7 +38,7 @@
         android:layout_alignBaseline="@+id/storno_checkbox"
         android:layout_alignParentLeft="true"
         android:layout_alignRight="@id/guest_label"
-        android:text="Storno"
+        android:text="@string/cancellation"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
     <CheckBox

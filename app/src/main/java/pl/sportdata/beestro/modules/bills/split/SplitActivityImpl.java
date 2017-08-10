@@ -52,7 +52,7 @@ public class SplitActivityImpl extends SplitActivity implements SplitFragment.On
 
     @Override
     public void showSplitPossible(int selectedItemsCount) {
-        splitAction.setTitle(String.format("Wydziel %s", selectedItemsCount));
+        splitAction.setTitle(String.format(getString(R.string.extract), selectedItemsCount));
         splitAction.setVisible(true);
     }
 
