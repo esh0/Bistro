@@ -28,7 +28,7 @@ android {
         resolutionStrategy.force 'com.android.support:support-annotations:22.2.0'
     }
     compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "pl.sportdata.mojito"
         minSdkVersion 16
@@ -39,6 +39,7 @@ android {
         vectorDrawables.useSupportLibrary true
         buildConfigField("String", "BUILD_TIME", getBuildTime())
     }
+    flavorDimensions "default"
     buildTypes {
         release {
             minifyEnabled false
@@ -54,13 +55,13 @@ android {
 
         }
     }
-    applicationVariants.all { variant ->
+    /*applicationVariants.all { variant ->
         variant.outputs.each { output ->
             output.outputFile = new File(
                     output.outputFile.parent,
                     output.outputFile.name.replace(".apk", "-${variant.versionName}-${variant.versionCode}.apk"))
         }
-    }
+    }*/
 }
 
 dependencies {
